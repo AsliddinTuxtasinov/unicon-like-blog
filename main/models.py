@@ -17,6 +17,14 @@ class SubCategories(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        # Custom logic to be executed before saving the instance to the database
+        if self.email:
+            self.is_services = True
+        super().save(*args, **kwargs)
+        # Custom logic to be executed after saving the instance to the database
+        # ...
+
 
 class Content(models.Model):
     title = models.CharField(max_length=255)

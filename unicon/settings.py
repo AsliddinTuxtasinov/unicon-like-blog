@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     # global
     'rest_framework',
     'drf_yasg',
+    'django_filters',
 
     # local
     "main",
