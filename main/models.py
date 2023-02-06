@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.db import models
 
 
@@ -28,13 +29,19 @@ class SubCategories(models.Model):
 
 class Content(models.Model):
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    # content = models.TextField()
+    content = RichTextField()
     created_at = models.DateField(auto_now_add=True)
 
     sub_category = models.ForeignKey(to=SubCategories, on_delete=models.CASCADE, related_name="content_sub_category")
 
     def __str__(self):
         return self.title
+
+
+class ContentImages(models.Model):
+    content = models.ForeignKey(to=Content, on_delete=models.CASCADE, related_name="content_images")
+    image = models.ImageField(upload_to="content/content-images")
 
 
 class EmailMessages(models.Model):

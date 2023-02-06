@@ -1,4 +1,4 @@
-from .models import EmailMessages, SubCategories, Categories, Content
+from .models import EmailMessages, SubCategories, Categories, Content, ContentImages
 from rest_framework import serializers
 
 
@@ -21,8 +21,16 @@ class CategoriesSerializers(serializers.ModelSerializer):
         return SubCategoriesSerializers(obj.parent_category.all(), many=True).data
 
 
+class ContentImagesSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContentImages
+        fields = "__all__"
+
+
 class ContentSerializers(serializers.ModelSerializer):
     subCategories = serializers.SerializerMethodField()
+    images = serializers.SerializerMethodField()
 
     class Meta:
         model = Content
@@ -31,6 +39,10 @@ class ContentSerializers(serializers.ModelSerializer):
     @staticmethod
     def get_subCategories(obj):
         return SubCategoriesSerializers(obj.sub_category).data
+
+    @staticmethod
+    def get_images(obj):
+        return ContentImagesSerializers(obj.content_images.all(), many=True).data
 
 
 class EmailMessagesSerializers(serializers.ModelSerializer):

@@ -1,7 +1,9 @@
+from ckeditor.fields import RichTextField
+from ckeditor.widgets import CKEditorWidget
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from .models import EmailMessages, SubCategories, Categories, Content
+from .models import EmailMessages, SubCategories, Categories, Content, ContentImages
 
 
 @admin.register(Categories)
@@ -21,9 +23,19 @@ class EmailMessagesAdmin(admin.ModelAdmin):
     readonly_fields = ["created_add"]
 
 
+class ContentImagesInline(admin.TabularInline):
+    model = ContentImages
+    extra = 1
+
+
 @admin.register(Content)
 class ContentAdmin(admin.ModelAdmin):
     list_display = ["title", "sub_category", "created_at"]
+    inlines = [ContentImagesInline]
+
+    formfield_overrides = {
+        RichTextField: {'widget': CKEditorWidget()}
+    }
 
 
 admin.site.unregister(Group)
