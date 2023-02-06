@@ -22,6 +22,8 @@ class SubCategoriesAdmin(admin.ModelAdmin):
 
 @admin.register(EmailMessages)
 class EmailMessagesAdmin(admin.ModelAdmin):
+    list_display = ["title", "services", "name_organization", "full_name", "is_agree"]
+    list_filter = ["is_agree", "services"]
     readonly_fields = ["created_add"]
 
 

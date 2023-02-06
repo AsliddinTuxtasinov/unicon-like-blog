@@ -8,6 +8,9 @@ class Categories(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = "Categories"
+
 
 class SubCategories(models.Model):
     parent = models.ForeignKey(to=Categories, on_delete=models.CASCADE, related_name="parent_category")
@@ -26,6 +29,9 @@ class SubCategories(models.Model):
         # Custom logic to be executed after saving the instance to the database
         # ...
 
+    class Meta:
+        verbose_name_plural = "Sub categories"
+
 
 class Content(models.Model):
     title = models.CharField(max_length=255)
@@ -37,6 +43,9 @@ class Content(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = "Contents"
 
 
 class ContentImages(models.Model):
@@ -60,3 +69,6 @@ class EmailMessages(models.Model):
 
     def __str__(self):
         return f"{self.full_name}-{self.email}-{self.created_add}"
+
+    class Meta:
+        verbose_name_plural = "Email messages"
