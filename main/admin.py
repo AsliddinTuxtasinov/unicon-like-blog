@@ -3,6 +3,8 @@ from ckeditor.widgets import CKEditorWidget
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
+from modeltranslation.admin import TranslationAdmin
+
 from .models import EmailMessages, SubCategories, Categories, Content, ContentImages
 
 
@@ -29,7 +31,7 @@ class ContentImagesInline(admin.TabularInline):
 
 
 @admin.register(Content)
-class ContentAdmin(admin.ModelAdmin):
+class ContentAdmin(TranslationAdmin):
     list_display = ["title", "sub_category", "created_at"]
     inlines = [ContentImagesInline]
 
