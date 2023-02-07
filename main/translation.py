@@ -1,8 +1,8 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Content
+from .models import InformationService
 
 
-@register(Content)
-class ContentOptions(TranslationOptions):
+@register(InformationService)
+class InformationServiceOptions(TranslationOptions):
     fields = ('title', 'content')

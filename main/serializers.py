@@ -1,48 +1,70 @@
-from .models import EmailMessages, SubCategories, Categories, Content, ContentImages
+from .models import (
+    EmailMessages, InformationService, ContentImages, Members, Product, Resource,
+    ResourceContent, Announcement, Services
+)
 from rest_framework import serializers
 
 
-class SubCategoriesSerializers(serializers.ModelSerializer):
-
+class MembersSerializers(serializers.ModelSerializer):
     class Meta:
-        model = SubCategories
+        model = Members
         fields = "__all__"
 
 
-class CategoriesSerializers(serializers.ModelSerializer):
-    subCategories = serializers.SerializerMethodField()
+class ProductSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class ResourceSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Resource
+        fields = "__all__"
+
+
+class ResourceContentSerializers(serializers.ModelSerializer):
+    resource = serializers.SerializerMethodField()
 
     class Meta:
-        model = Categories
+        model = ResourceContent
         fields = "__all__"
 
     @staticmethod
-    def get_subCategories(obj):
-        return SubCategoriesSerializers(obj.parent_category.all(), many=True).data
+    def get_resource(obj):
+        return ResourceSerializers(obj.resource).data
 
 
-class ContentImagesSerializers(serializers.ModelSerializer):
+class AnnouncementSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Announcement
+        fields = "__all__"
+
+
+class ServicesSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Services
+        # fields = ["id", "name", "title", "content", "created_at"]
+        exclude = ["email"]
+
+
+class InformationServiceImagesSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = ContentImages
         fields = "__all__"
 
 
-class ContentSerializers(serializers.ModelSerializer):
-    subCategories = serializers.SerializerMethodField()
+class InformationServiceSerializers(serializers.ModelSerializer):
     images = serializers.SerializerMethodField()
 
     class Meta:
-        model = Content
+        model = InformationService
         fields = "__all__"
 
     @staticmethod
-    def get_subCategories(obj):
-        return SubCategoriesSerializers(obj.sub_category).data
-
-    @staticmethod
     def get_images(obj):
-        return ContentImagesSerializers(obj.content_images.all(), many=True).data
+        return InformationServiceImagesSerializers(obj.content_images.all(), many=True).data
 
 
 class EmailMessagesSerializers(serializers.ModelSerializer):

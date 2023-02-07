@@ -5,19 +5,41 @@ from django.contrib.auth.models import Group
 
 from modeltranslation.admin import TranslationAdmin
 
-from .models import EmailMessages, SubCategories, Categories, Content, ContentImages
+from .models import (
+    EmailMessages, InformationService, ContentImages, Members, Product,
+    Resource, ResourceContent, Announcement, Services
+)
 
 
-@admin.register(Categories)
-class CategoriesAdmin(admin.ModelAdmin):
+@admin.register(Members)
+class MembersAdmin(admin.ModelAdmin):
+    list_display = ["full_name", "department", ]
+    list_filter = ["member_type"]
+
+
+@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    list_display = ["title"]
+
+
+@admin.register(Resource)
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ["title"]
+
+
+@admin.register(ResourceContent)
+class ResourceContentAdmin(admin.ModelAdmin):
+    list_display = ["name", "resource"]
+
+
+@admin.register(Announcement)
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ["title", "announcement_status", "status_type"]
+
+
+@admin.register(Services)
+class ServicesAdmin(admin.ModelAdmin):
     list_display = ["name"]
-
-
-@admin.register(SubCategories)
-class SubCategoriesAdmin(admin.ModelAdmin):
-    list_display = ["name", "parent", "is_services"]
-    list_filter = ["parent", "is_services"]
-    readonly_fields = ["is_services"]
 
 
 @admin.register(EmailMessages)
@@ -32,9 +54,9 @@ class ContentImagesInline(admin.TabularInline):
     extra = 1
 
 
-@admin.register(Content)
-class ContentAdmin(TranslationAdmin):
-    list_display = ["title", "sub_category", "created_at"]
+@admin.register(InformationService)
+class InformationServiceAdmin(TranslationAdmin):
+    list_display = ["title", "created_at"]
     inlines = [ContentImagesInline]
 
     formfield_overrides = {

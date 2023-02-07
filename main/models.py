@@ -1,60 +1,136 @@
 from ckeditor.fields import RichTextField
+from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
-class Categories(models.Model):
-    name = models.CharField(max_length=255)
+class Members(models.Model):
+    class MembersCat(models.TextChoices):
+        LEADERSHIP = 'RT', _('RAXBARIYAT')
+        SCIENTIFIC_COUNCIL = 'IK', _('ILMIY KENGASH')
+        OUR_TEAM = 'BJ', _('BIZNING JAMOA')
+
+    member_type = models.CharField(max_length=2, choices=MembersCat.choices)
+    image = models.ImageField(upload_to="content/member-image")
+    full_name = models.CharField(max_length=255)
+    department = models.CharField(max_length=255)
+    phone = models.CharField(max_length=150)
+    email = models.EmailField()
 
     def __str__(self):
-        return self.name
+        return self.full_name
 
     class Meta:
-        verbose_name_plural = "Categories"
+        verbose_name_plural = "Members"
 
 
-class SubCategories(models.Model):
-    parent = models.ForeignKey(to=Categories, on_delete=models.CASCADE, related_name="parent_category")
-    name = models.CharField(max_length=100)
-    email = models.EmailField(blank=True)
-    is_services = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.name
-
-    def save(self, *args, **kwargs):
-        # Custom logic to be executed before saving the instance to the database
-        if self.email:
-            self.is_services = True
-        super().save(*args, **kwargs)
-        # Custom logic to be executed after saving the instance to the database
-        # ...
-
-    class Meta:
-        verbose_name_plural = "Sub categories"
-
-
-class Content(models.Model):
+class Product(models.Model):
     title = models.CharField(max_length=255)
-    # content = models.TextField()
+    icon = models.ImageField(upload_to="content/nav-about-product-icon")
+    img = models.ImageField(upload_to="content/nav-about-product-img", blank=True, null=True)
     content = RichTextField()
-    created_at = models.DateField(auto_now_add=True)
-
-    sub_category = models.ForeignKey(to=SubCategories, on_delete=models.CASCADE, related_name="content_sub_category")
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name_plural = "Contents"
+        verbose_name_plural = _("Maxsulotlar")
+        verbose_name = _("Maxsulot")
+
+
+# Resource -> About Us
+class Resource(models.Model):
+    title = models.CharField(max_length=255)
+    short_desc = models.CharField(max_length=255)
+    icon = models.ImageField(upload_to="content/nav-about-resource-icon")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = _("Resurslar")
+        verbose_name = _("Resurs")
+
+
+class ResourceContent(models.Model):
+    resource = models.ForeignKey(to=Resource, on_delete=models.CASCADE, related_name="resource_content")
+
+    name = models.CharField(max_length=255)
+    short_desc = models.CharField(max_length=255)
+    file = models.FileField(upload_to="content/resource-content-file")
+    date = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = _("Resurs contentlari")
+        verbose_name = _("Resurs conteni")
+
+
+class Announcement(models.Model):
+    class AnnouncementCat(models.TextChoices):
+        COMPETITIONS = 'CS', _('KONKURSLAR')
+        SELECTION_OF_PROPOSALS = 'IK', _('TAKLIFLAR_TANLOVI')
+
+    class AnnouncementStatus(models.TextChoices):
+        CONTINUE = 'CS', _("OZ_KUCHIDA")
+        FINISHED = 'IK', _('MUDDATI_TUGAGAN')
+
+    announcement_status = models.CharField(max_length=2, choices=AnnouncementCat.choices)
+    status_type = models.CharField(max_length=2, choices=AnnouncementStatus.choices)
+
+    title = models.CharField(max_length=255)
+    content = RichTextField()
+    started_at = models.DateTimeField(blank=True, null=True)
+    finished_at = models.DateTimeField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = _("E'lonlar")
+        verbose_name = _("E'lon")
+
+
+class Services(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(blank=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = RichTextField()
+
+    created_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = _("Xizmatlar")
+        verbose_name = _("Xizmat")
+
+
+class InformationService(models.Model):
+    class InformationServiceCat(models.TextChoices):
+        NEWS = 'NS', _('YANGILIKLAR')
+        PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
+        VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
+        # ABOUT_UNICON_UZ = 'AU', _("UNICON.UZ HAQIDA")
+        # OAV_ABOUT_US = 'OA', _("OAV BIZ HAQIMIZDA")
+
+    info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
+
+    title = models.CharField(max_length=255)
+    content = RichTextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name_plural = _("Axborat xizmatlari")
+        verbose_name = _("Axborat xizmati")
 
 
 class ContentImages(models.Model):
-    content = models.ForeignKey(to=Content, on_delete=models.CASCADE, related_name="content_images")
+    content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
     image = models.ImageField(upload_to="content/content-images")
 
 
 class EmailMessages(models.Model):
-    services = models.ForeignKey(to=SubCategories, related_name="services", on_delete=models.CASCADE)
+    services = models.ForeignKey(to=Services, related_name="services", on_delete=models.CASCADE)
 
     name_organization = models.CharField(max_length=255)
     email = models.EmailField()
@@ -71,4 +147,5 @@ class EmailMessages(models.Model):
         return f"{self.full_name}-{self.email}-{self.created_add}"
 
     class Meta:
-        verbose_name_plural = "Email messages"
+        verbose_name_plural = _("Email xabarlar")
+        verbose_name = _("Email xabari")
