@@ -1,6 +1,8 @@
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
-from rest_framework import response, status, validators
+from rest_framework import response, status
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
@@ -14,6 +16,13 @@ from .serializers import (
 from .utils import error_response_404
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["member"],
+    operation_summary="Member(rahbariyat, ilmiykengash, jamoa) larni royxatini olish",
+    operation_description="member_type = ['rahbariyat', 'ilmiykengash', 'team'] -> shulardan biri bolishi mumkin",
+    operation_id="members-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va memberlar listi keladi"}
+))
 class MembersViews(APIView):
     # Define the serializer class to be used for serializing the data
     serializer_class = MembersSerializers
@@ -43,6 +52,13 @@ class MembersViews(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["product or resource"],
+    operation_summary="Maxsulotlar yoki resurslar royxatini olish",
+    operation_description="type = ['mahsulotlar', 'resurslar'] -> shulardan biri bolishi mumkin",
+    operation_id="product-or-resource-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va maxsulotlar yoki resurslar royxati keladi"}
+))
 class ProductOrResourceList(APIView):
     # A map between the incoming type parameter value and the type of object
     # we want to retrieve from the database
@@ -70,12 +86,26 @@ class ProductOrResourceList(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["product or resource"],
+    operation_summary="Maxsulotni id orqali detail qismiga kirish",
+    operation_description="id -> maxsulot id si, uni maxsulotlar ro'yxatidan olinadi",
+    operation_id="product-detail",
+    responses={'200': "Response json ko'rinishida bo'ladi va maxsulot detail keladi"}
+))
 class ProductDetailView(RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializers
     permission_classes = [AllowAny]
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["product or resource"],
+    operation_summary="Resource id orqali resurslar ichidagi resurlar ro'yxatini filter qilish",
+    operation_description="id -> resurs id si, uni resurslar ro'yxatidan olinadi",
+    operation_id="resource-detail",
+    responses={'200': "Response json ko'rinishida bo'ladi va filterlangan resurslar ro'yxati keladi"}
+))
 class ResourceDetailView(APIView):
     # Define the serializer class to use for this view
     serializer_class = ResourceContentSerializers
@@ -99,6 +129,13 @@ class ResourceDetailView(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Announcement"],
+    operation_summary="Announcement type orqali filter qiladi va filterlangan e'lonlar ro'yxatini qaytaradi",
+    operation_description="type = ['konkurslar', 'takliflar'] bo'lishi mumkin",
+    operation_id="announcement-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va filterlangan ro'yxati keladi"}
+))
 class AnnouncementView(APIView):
     # Define the serializer class to be used for this view
     serializer_class = AnnouncementSerializers
