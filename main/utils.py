@@ -1,3 +1,5 @@
+import hashlib
+from uuid import getnode as get_mac
 from django.core.mail import EmailMessage
 from rest_framework import validators, status
 
@@ -16,3 +18,11 @@ def send_email_with_attachment(subject, message, from_email, recipient_list, fil
 def error_response_404():
     raise validators.ValidationError(
         detail={"message": "Object is not found 404"}, code=status.HTTP_404_NOT_FOUND)
+
+
+def get_mac_address():
+    return get_mac()
+
+
+def convert_text_to_hash(text):
+    return str(int(hashlib.sha1(text.encode("utf-8")).hexdigest(), 16) % (10 ** 8))

@@ -107,8 +107,6 @@ class InformationService(models.Model):
         NEWS = 'NS', _('YANGILIKLAR')
         PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
         VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
-        # ABOUT_UNICON_UZ = 'AU', _("UNICON.UZ HAQIDA")
-        # OAV_ABOUT_US = 'OA', _("OAV BIZ HAQIMIZDA")
 
     info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
 
@@ -119,9 +117,18 @@ class InformationService(models.Model):
     def __str__(self):
         return self.title
 
+    @property
+    def views_count(self):
+        return self.content_views_count.count()
+
     class Meta:
         verbose_name_plural = _("Axborat xizmatlari")
         verbose_name = _("Axborat xizmati")
+
+
+class InformationServiceContentViewsModel(models.Model):
+    content = models.ManyToManyField(to=InformationService, related_name="content_views_count")
+    mac_address = models.CharField(max_length=255)
 
 
 class ContentImages(models.Model):
@@ -139,7 +146,7 @@ class EmailMessages(models.Model):
     title = models.CharField(max_length=255)
     message = models.TextField()
     file = models.FileField(null=True, blank=True, upload_to="file-message/")
-    is_agree = models.BooleanField()
+    # is_agree = models.BooleanField()
 
     created_add = models.DateField(auto_now_add=True)
 

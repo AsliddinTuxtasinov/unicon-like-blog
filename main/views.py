@@ -1,5 +1,4 @@
 from django.utils.decorators import method_decorator
-from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.views import APIView
 from rest_framework import response, status
@@ -7,19 +6,20 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from .models import (
-    EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService
+    EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
+    InformationServiceContentViewsModel
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
     ProductSerializers, ResourceSerializers, ResourceContentSerializers, AnnouncementSerializers, ServicesSerializers
 )
-from .utils import error_response_404
+from .utils import error_response_404, get_mac_address, convert_text_to_hash
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["member"],
     operation_summary="Member(rahbariyat, ilmiykengash, jamoa) larni royxatini olish",
-    operation_description="member_type = ['rahbariyat', 'ilmiykengash', 'team'] -> shulardan biri bolishi mumkin",
+    operation_description="member_type = ['rahbariyat', 'ilmiykengash', 'team'] -> shulardan biri bo'lishi mumkin",
     operation_id="members-list",
     responses={'200': "Response json ko'rinishida bo'ladi va memberlar listi keladi"}
 ))
@@ -54,36 +54,15 @@ class MembersViews(APIView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["product or resource"],
-    operation_summary="Maxsulotlar yoki resurslar royxatini olish",
-    operation_description="type = ['mahsulotlar', 'resurslar'] -> shulardan biri bolishi mumkin",
-    operation_id="product-or-resource-list",
-    responses={'200': "Response json ko'rinishida bo'ladi va maxsulotlar yoki resurslar royxati keladi"}
+    operation_summary="Maxsulotlar royxatini olish",
+    operation_description="",
+    operation_id="product-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va maxsulotlar royxati keladi"}
 ))
-class ProductOrResourceList(APIView):
-    # A map between the incoming type parameter value and the type of object
-    # we want to retrieve from the database
-    types_api = {
-        'mahsulotlar': True,
-        'resurslar': False,
-    }
-
-    def get(self, *args, **kwargs):
-        # Retrieve the value of the "type" parameter from the URL and convert it to lowercase
-        type_api = self.types_api.get(kwargs.get("type", "").lower(), None)
-
-        # If the type is not found in the map, return a 404 error
-        if type_api is None:
-            error_response_404()
-
-        # If type_api is True, retrieve all Product objects from the database and serialize them
-        if type_api:
-            serializer = ProductSerializers(Product.objects.all(), many=True)
-        # If type_api is False, retrieve all Resource objects from the database and serialize them
-        else:
-            serializer = ResourceSerializers(Resource.objects.all(), many=True)
-
-        # Return the serialized data as a JSON response with a 200 OK status
-        return response.Response(data=serializer.data, status=status.HTTP_200_OK)
+class ProductList(ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializers
+    permission_classes = [AllowAny]
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -96,6 +75,19 @@ class ProductOrResourceList(APIView):
 class ProductDetailView(RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializers
+    permission_classes = [AllowAny]
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["product or resource"],
+    operation_summary="Resurslar royxatini olish",
+    operation_description="",
+    operation_id="resource-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va resurslar ro'yxati keladi"}
+))
+class ResourceList(ListAPIView):
+    queryset = Resource.objects.all()
+    serializer_class = ResourceSerializers
     permission_classes = [AllowAny]
 
 
@@ -164,24 +156,52 @@ class AnnouncementView(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Services"],
+    operation_summary="Services(Xizmatlar) larni ro'yxatini olish",
+    operation_description="",
+    operation_id="services-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+))
 class ServicesListViews(ListAPIView):
     serializer_class = ServicesSerializers
     queryset = Services.objects.all()
     permission_classes = [AllowAny]
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Services"],
+    operation_summary="Services(Xizmatlar) detail olish",
+    operation_description="id - bu orqali service ni oladi",
+    operation_id="services-detail",
+    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+))
 class ServicesDetailViews(RetrieveAPIView):
     queryset = Services.objects.all()
     serializer_class = ServicesSerializers
     permission_classes = [AllowAny]
 
 
+@method_decorator(name='post', decorator=swagger_auto_schema(
+    tags=["Services"],
+    operation_summary="Services(Xizmatlar) ga message qoldirish",
+    operation_description="Bu message service ga biriktirilgan emailga jo'natiladi",
+    operation_id="create-message",
+    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+))
 class CreateEmailMessages(CreateAPIView):
     queryset = EmailMessages.objects.all()
     serializer_class = EmailMessagesSerializers
     permission_classes = [AllowAny]
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Information Service (Axborot Xizmati)"],
+    operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish",
+    operation_description="type=['yangiliklar', 'foto', 'video'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
+    operation_id="info-services",
+    responses={'200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
+))
 class InformationServiceViews(APIView):
     # Define the serializer class to be used for this view
     serializer_class = InformationServiceSerializers
@@ -211,7 +231,28 @@ class InformationServiceViews(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Information Service (Axborot Xizmati)"],
+    operation_summary="Information Service (Axborot Xizmati) detail olish",
+    operation_description="id - bu orqali objects ni detail data sini oladi",
+    operation_id="info-services-detail",
+    responses={'200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) detail keladi"}
+))
 class InformationServiceDetailViews(RetrieveAPIView):
     serializer_class = InformationServiceSerializers
     queryset = InformationService.objects.all()
     permission_classes = [AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        mac_address = convert_text_to_hash(str(get_mac_address()))
+        if InformationServiceContentViewsModel.objects.filter(
+                content=instance,
+                mac_address=mac_address,
+        ).count() <= 0:
+            obj = InformationServiceContentViewsModel(mac_address=mac_address)
+            obj.save()
+            obj.content.add(instance)
+        return response.Response(serializer.data)

@@ -7,45 +7,45 @@ from modeltranslation.admin import TranslationAdmin
 
 from .models import (
     EmailMessages, InformationService, ContentImages, Members, Product,
-    Resource, ResourceContent, Announcement, Services
+    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel
 )
 
 
 @admin.register(Members)
-class MembersAdmin(admin.ModelAdmin):
+class MembersAdmin(TranslationAdmin):
     list_display = ["full_name", "department", ]
     list_filter = ["member_type"]
 
 
 @admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+class ProductAdmin(TranslationAdmin):
     list_display = ["title"]
 
 
 @admin.register(Resource)
-class ResourceAdmin(admin.ModelAdmin):
+class ResourceAdmin(TranslationAdmin):
     list_display = ["title"]
 
 
 @admin.register(ResourceContent)
-class ResourceContentAdmin(admin.ModelAdmin):
+class ResourceContentAdmin(TranslationAdmin):
     list_display = ["name", "resource"]
 
 
 @admin.register(Announcement)
-class AnnouncementAdmin(admin.ModelAdmin):
+class AnnouncementAdmin(TranslationAdmin):
     list_display = ["title", "announcement_status", "status_type"]
 
 
 @admin.register(Services)
-class ServicesAdmin(admin.ModelAdmin):
+class ServicesAdmin(TranslationAdmin):
     list_display = ["name"]
 
 
 @admin.register(EmailMessages)
 class EmailMessagesAdmin(admin.ModelAdmin):
-    list_display = ["title", "services", "name_organization", "full_name", "is_agree"]
-    list_filter = ["is_agree", "services"]
+    list_display = ["title", "services", "name_organization", "full_name"]
+    list_filter = ["services"]
     readonly_fields = ["created_add"]
 
 
@@ -58,6 +58,7 @@ class ContentImagesInline(admin.TabularInline):
 class InformationServiceAdmin(TranslationAdmin):
     list_display = ["title", "created_at"]
     inlines = [ContentImagesInline]
+    readonly_fields = ["views_count"]
 
     formfield_overrides = {
         RichTextField: {'widget': CKEditorWidget()}
@@ -65,3 +66,8 @@ class InformationServiceAdmin(TranslationAdmin):
 
 
 admin.site.unregister(Group)
+
+
+# @admin.register(InformationServiceContentViewsModel)
+# class InformationServiceContentViewsModelAdmin(admin.ModelAdmin):
+#     pass
