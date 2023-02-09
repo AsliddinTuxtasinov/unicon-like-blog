@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # global`
     'rest_framework',
+    'corsheaders',
     'drf_yasg',
     'django_filters',
     'ckeditor',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',  # language middleware
+    'corsheaders.middleware.CorsMiddleware',  # django cors middleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -61,6 +63,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'unicon.urls'
+
+# cors setting
+CORS_ORIGIN_ALLOW_ALL = True
 
 TEMPLATES = [
     {
