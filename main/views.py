@@ -7,11 +7,12 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
-    InformationServiceContentViewsModel
+    InformationServiceContentViewsModel, Partners, ContactUs
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
-    ProductSerializers, ResourceSerializers, ResourceContentSerializers, AnnouncementSerializers, ServicesSerializers
+    ProductSerializers, ResourceSerializers, ResourceContentSerializers, AnnouncementSerializers, ServicesSerializers,
+    PartnersSerializers, ContactUsSerializers
 )
 from .utils import error_response_404, get_mac_address, convert_text_to_hash
 
@@ -198,7 +199,7 @@ class CreateEmailMessages(CreateAPIView):
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["Information Service (Axborot Xizmati)"],
     operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish",
-    operation_description="type=['yangiliklar', 'foto', 'video'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
+    operation_description="type=['yangiliklar', 'foto', 'video', 'memorandum'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
     operation_id="info-services",
     responses={'200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
 ))
@@ -211,6 +212,7 @@ class InformationServiceViews(APIView):
         'yangiliklar': InformationService.InformationServiceCat.NEWS,
         'foto': InformationService.InformationServiceCat.PHOTO_REPORT,
         'video': InformationService.InformationServiceCat.VIDEO_REPORT,
+        'memorandum': InformationService.InformationServiceCat.MEMORANDUM,
     }
 
     def get(self, *args, **kwargs):
@@ -256,3 +258,16 @@ class InformationServiceDetailViews(RetrieveAPIView):
             obj.save()
             obj.content.add(instance)
         return response.Response(serializer.data)
+
+
+class PartnersList(ListAPIView):
+    queryset = Partners.objects.all()
+    serializer_class = PartnersSerializers
+    permission_classes = [AllowAny]
+
+
+class ContactUsView(CreateAPIView):
+    queryset = ContactUs.objects.all()
+    serializer_class = ContactUsSerializers
+    permission_classes = [AllowAny]
+

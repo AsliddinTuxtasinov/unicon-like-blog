@@ -107,6 +107,7 @@ class InformationService(models.Model):
         NEWS = 'NS', _('YANGILIKLAR')
         PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
         VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
+        MEMORANDUM = 'MM', _("MEMORANDUM")
 
     info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
 
@@ -156,3 +157,31 @@ class EmailMessages(models.Model):
     class Meta:
         verbose_name_plural = _("Email xabarlar")
         verbose_name = _("Email xabari")
+
+
+class ContactUs(models.Model):
+    full_name = models.CharField(max_length=255, verbose_name="full name or organization name")
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=50)
+    message = models.TextField()
+
+    created_add = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.full_name}-{self.email}-{self.created_add}"
+
+    class Meta:
+        verbose_name_plural = _("Contacts")
+        verbose_name = _("Contact")
+
+
+class Partners(models.Model):
+    name = models.CharField(max_length=255)
+    icon = models.ImageField(upload_to="media/partners-icon")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = _("Partners")
+        verbose_name = _("Partner")

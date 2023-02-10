@@ -1,6 +1,6 @@
 from .models import (
     EmailMessages, InformationService, ContentImages, Members, Product, Resource,
-    ResourceContent, Announcement, Services
+    ResourceContent, Announcement, Services, ContactUs, Partners
 )
 from rest_framework import serializers
 
@@ -75,4 +75,16 @@ class InformationServiceSerializers(serializers.ModelSerializer):
 class EmailMessagesSerializers(serializers.ModelSerializer):
     class Meta:
         model = EmailMessages
+        fields = "__all__"
+
+
+class ContactUsSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = ContactUs
+        fields = "__all__"
+
+
+class PartnersSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Partners
         fields = "__all__"

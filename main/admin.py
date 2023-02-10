@@ -7,7 +7,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from .models import (
     EmailMessages, InformationService, ContentImages, Members, Product,
-    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel
+    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners
 )
 
 
@@ -71,3 +71,13 @@ admin.site.unregister(Group)
 # @admin.register(InformationServiceContentViewsModel)
 # class InformationServiceContentViewsModelAdmin(admin.ModelAdmin):
 #     pass
+
+
+@admin.register(ContactUs)
+class ContactUsAdmin(admin.ModelAdmin):
+    list_display = ["full_name", "email", "phone_number", "created_add"]
+
+
+@admin.register(Partners)
+class PartnersAdmin(admin.ModelAdmin):
+    list_display = ["name"]
