@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # white noise for ststic files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',  # language middleware
     'corsheaders.middleware.CorsMiddleware',  # django cors middleware
@@ -63,6 +64,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'unicon.urls'
+
+# white noise settings
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # cors setting
 CORS_ORIGIN_ALLOW_ALL = True
