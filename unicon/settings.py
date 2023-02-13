@@ -68,14 +68,16 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'unicon.urls'
 
 # cors setting
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = False
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
+# CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
 
-    "http://localhost:3001", 
+    "http://localhost:3001",
     "http://127.0.0.1:3001",
 
 ]
@@ -89,9 +91,6 @@ CORS_ALLOW_METHODS = [
     "PUT",
 ]
 
-CORS_ALLOW_METHODS = list(default_methods) + [
-    "POKE",
-]
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -104,7 +103,6 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
     "access-control-allow-origin"
 ]
-
 
 TEMPLATES = [
     {
@@ -179,7 +177,7 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # white noise settings

@@ -90,7 +90,7 @@ class Services(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(blank=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    content = RichTextField()
+    content = RichTextField(blank=True)
 
     created_at = models.DateField(auto_now_add=True)
 
