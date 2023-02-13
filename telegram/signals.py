@@ -60,10 +60,14 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
                        f"<b>Xabbar:</b> {instance.message}\n" \
                        f"<b>Yuborilgan vaqti:</b>{instance.created_add}"
 
-        file_instance = instance.file.path
+        if instance.file:
+            file_instance = instance.file.path
+        else:
+            file_instance = None
 
         if chat_ids:
             for obj_id in chat_ids:
+                print(obj_id)
                 thread = threading.Thread(target=send_message_in_thread, args=(obj_id, message_text, file_instance))
                 thread.start()
 
@@ -75,7 +79,7 @@ def send_messege_on_contact_creation(sender, instance, created, **kwargs):
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti:</b> {instance.created_add}"
+                       f"<b>Yuborilgan vaqti: </b> {instance.created_add}"
 
         if chat_ids:
             for obj_id in chat_ids:

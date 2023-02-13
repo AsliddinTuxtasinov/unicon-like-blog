@@ -1,9 +1,11 @@
+from email.message import EmailMessage
+
 from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
 from .models import EmailMessages
-from .utils import send_email_with_attachment
+from django.core.mail import EmailMessage as sendMail
 
 
 @receiver(post_save, sender=EmailMessages)
@@ -15,10 +17,19 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
                        f"Xabbar: {instance.message}\n" \
                        f"Yuborilgan vaqti:{instance.created_add}"
 
-        send_email_with_attachment(
+        # create an EmailMessage object with the given subject, message, and sender and recipient email addresses
+        email = sendMail(
             subject=f"FISH/Tashkilot nomi: {instance.name}",
-            message=message_text,
+            body=message_text,
             from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[instance.services.email],
-            file_path=instance.file.path,
+            to=[instance.services.email],
         )
+
+        # attach the file at the given file path to the email
+        if instance.file:
+            file_instance = instance.file.path
+            email.attach_file(file_instance)
+
+        # send the email
+        email.send()
+

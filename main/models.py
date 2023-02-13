@@ -33,8 +33,8 @@ class Product(models.Model):
         return self.title
 
     class Meta:
-        verbose_name_plural = _("Maxsulotlar")
-        verbose_name = _("Maxsulot")
+        verbose_name_plural = _("Xizmatlar")
+        verbose_name = _("Xizmat")
 
 
 # Resource -> About Us
@@ -98,8 +98,8 @@ class Services(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = _("Xizmatlar")
-        verbose_name = _("Xizmat")
+        verbose_name_plural = _("Bo'limlar")
+        verbose_name = _("Bo'lim")
 
 
 class InformationService(models.Model):

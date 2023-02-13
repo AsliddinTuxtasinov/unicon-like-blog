@@ -201,7 +201,8 @@ class CreateEmailMessages(CreateAPIView):
     operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish",
     operation_description="type=['yangiliklar', 'foto', 'video', 'memorandum'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
     operation_id="info-services",
-    responses={'200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
+    responses={
+        '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
 ))
 class InformationServiceViews(APIView):
     # Define the serializer class to be used for this view
@@ -238,7 +239,8 @@ class InformationServiceViews(APIView):
     operation_summary="Information Service (Axborot Xizmati) detail olish",
     operation_description="id - bu orqali objects ni detail data sini oladi",
     operation_id="info-services-detail",
-    responses={'200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) detail keladi"}
+    responses={
+        '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) detail keladi"}
 ))
 class InformationServiceDetailViews(RetrieveAPIView):
     serializer_class = InformationServiceSerializers
@@ -270,4 +272,3 @@ class ContactUsView(CreateAPIView):
     queryset = ContactUs.objects.all()
     serializer_class = ContactUsSerializers
     permission_classes = [AllowAny]
-
