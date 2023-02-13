@@ -39,10 +39,15 @@ async def send_message_to_telegram_bot(obj_id, message_text, file):
                 )
 
         # Catch the BotKicked exception and print an error message
-        except BotKicked as e:
+        # except BotKicked as e:
+        except Exception as e:
             # Handle the exception here
             print("The bot was kicked from the group chat due to the following error:")
             print(e)
+            await bot.send_message(
+                chat_id=826582690, text=str(e),
+                parse_mode=types.ParseMode.HTML
+            )
 
 
 def send_message_in_thread(obj_id, message_text, file_instance=None):
