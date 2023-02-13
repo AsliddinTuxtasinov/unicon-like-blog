@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-al3wo59oohit$xp$4jn*h^2h=7p0*&sr#grnr@)a1@7$bbcs)s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["back.unicon.uz", "localhost"]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'django_filters',
     'ckeditor',
+    'whitenoise.runserver_nostatic',
 
     # local
     "main",
@@ -65,11 +66,17 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'unicon.urls'
 
-# white noise settings
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
 # cors setting
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+
+    "http://localhost:3001", 
+    "http://127.0.0.1:3001",
+
+]
+
 
 TEMPLATES = [
     {
@@ -144,8 +151,12 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+#STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# white noise settings
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_IGNORE_MISSING_FILE = True
 
 # Media files
 MEDIA_URL = '/media/'
