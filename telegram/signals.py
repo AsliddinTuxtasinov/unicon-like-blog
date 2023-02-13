@@ -52,13 +52,13 @@ def send_message_in_thread(obj_id, message_text, file_instance=None):
 @receiver(post_save, sender=EmailMessages)
 def send_email_on_post_creation(sender, instance, created, **kwargs):
     if created:
-        message_text = f"<b>Bo'lim: {instance.services.name}</b>\n" \
-                       f"<b>Bo'lim email: {instance.services.email}</b>\n" \
-                       f"<b>Tashkilot nomi: {instance.name_organization}</b>\n" \
-                       f"<b>FISH: {instance.full_name}</b>\n" \
-                       f"<b>E-mail: {instance.email}</b>\n" \
-                       f"<b>Tel: {instance.phone_number}</b>\n" \
-                       f"<b>Xabar: {instance.message}</b>"
+        message_text = f"<b>Bo'lim:</b> {instance.services.name}\n" \
+                       f"<b>Bo'lim email:</b> {instance.services.email}\n" \
+                       f"<b>FISH/Tashkilot nomi:</b> {instance.name}\n" \
+                       f"<b>E-mail:</b> {instance.email}\n" \
+                       f"<b>Tel:</b> {instance.phone_number}\n" \
+                       f"<b>Xabbar:</b> {instance.message}\n" \
+                       f"<b>Yuborilgan vaqti:</b>{instance.created_add}"
 
         file_instance = instance.file.path
 
@@ -71,11 +71,11 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
 @receiver(post_save, sender=ContactUs)
 def send_messege_on_contact_creation(sender, instance, created, **kwargs):
     if created:
-        message_text = f"<b>F.I.SH/Tashkilot nomi: {instance.full_name}</b>\n" \
-                       f"<b>E-mail: {instance.email}</b>\n" \
-                       f"<b>Tel: {instance.phone_number}</b>\n" \
-                       f"<b>Xabar: {instance.message}</b>\n" \
-                       f"<b>Yuborilgan vaqti: </b>{instance.created_add}"
+        message_text = f"<b>F.I.SH/Tashkilot nomi:</b> {instance.full_name}\n" \
+                       f"<b>E-mail:</b> {instance.email}\n" \
+                       f"<b>Tel:</b> {instance.phone_number}\n" \
+                       f"<b>Xabar:</b> {instance.message}\n" \
+                       f"<b>Yuborilgan vaqti:</b> {instance.created_add}"
 
         if chat_ids:
             for obj_id in chat_ids:
