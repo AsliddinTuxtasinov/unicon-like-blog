@@ -152,7 +152,7 @@ class EmailMessages(models.Model):
     created_add = models.DateField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.full_name}-{self.email}-{self.created_add}"
+        return f"{self.name}-{self.email}-{self.created_add}"
 
     class Meta:
         verbose_name_plural = _("Email xabarlar")
