@@ -140,11 +140,11 @@ class ContentImages(models.Model):
 class EmailMessages(models.Model):
     services = models.ForeignKey(to=Services, related_name="services", on_delete=models.CASCADE)
 
-    name_organization = models.CharField(max_length=255)
+    name = models.CharField(verbose_name="FISH or Name organization", max_length=255)
     email = models.EmailField()
     phone_number = models.CharField(max_length=50)
-    full_name = models.CharField(max_length=255)
-    title = models.CharField(max_length=255)
+    # full_name = models.CharField(max_length=255)
+    # title = models.CharField(max_length=255)
     message = models.TextField()
     file = models.FileField(null=True, blank=True, upload_to="file-message/")
     # is_agree = models.BooleanField()

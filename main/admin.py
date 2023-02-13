@@ -44,7 +44,7 @@ class ServicesAdmin(TranslationAdmin):
 
 @admin.register(EmailMessages)
 class EmailMessagesAdmin(admin.ModelAdmin):
-    list_display = ["title", "services", "name_organization", "full_name"]
+    list_display = ["name", "services"]
     list_filter = ["services"]
     readonly_fields = ["created_add"]
 
