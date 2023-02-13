@@ -25,14 +25,14 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    path('api/', include("main.urls")),
 
     path('i18/', include("django.conf.urls.i18n")),
 ]
 
-
-urlpatterns += i18n_patterns(
-    path('api/', include("main.urls")),
-)
+# urlpatterns += i18n_patterns(
+#     path('api/', include("main.urls")),
+# )
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
