@@ -15,6 +15,7 @@ class Members(models.Model):
     department = models.CharField(max_length=255)
     phone = models.CharField(max_length=150)
     email = models.EmailField()
+    workday = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.full_name

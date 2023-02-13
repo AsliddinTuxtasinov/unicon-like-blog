@@ -7,7 +7,7 @@ from .models import (
 
 @register(Members)
 class MembersOptions(TranslationOptions):
-    fields = ('full_name', 'department')
+    fields = ('full_name', 'department', 'workday')
 
 
 @register(Product)
