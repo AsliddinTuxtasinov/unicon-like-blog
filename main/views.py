@@ -11,8 +11,8 @@ from .models import (
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
-    ProductSerializers, ResourceSerializers, ResourceContentSerializers, AnnouncementSerializers, ServicesSerializers,
-    PartnersSerializers, ContactUsSerializers
+    ProductSerializers, ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
+    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers
 )
 from .utils import error_response_404, get_mac_address, convert_text_to_hash
 
@@ -101,7 +101,7 @@ class ResourceList(ListAPIView):
 ))
 class ResourceDetailView(APIView):
     # Define the serializer class to use for this view
-    serializer_class = ResourceContentSerializers
+    serializer_class = ResourceDetailSerializers
 
     def get(self, *args, **kwargs):
         # Retrieve the primary key (pk) value from the URL kwargs
@@ -113,7 +113,7 @@ class ResourceDetailView(APIView):
 
         # Use the resource__resource_content__pk look-up to filter
         # the ResourceContent objects related to the given pk
-        resource_obj = ResourceContent.objects.filter(resource__resource_content__pk=pk)
+        resource_obj = Resource.objects.filter(pk=pk)
 
         # Serialize the filtered ResourceContent objects using the defined serializer class
         serializer = self.serializer_class(resource_obj, many=True)

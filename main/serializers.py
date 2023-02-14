@@ -24,15 +24,21 @@ class ResourceSerializers(serializers.ModelSerializer):
 
 
 class ResourceContentSerializers(serializers.ModelSerializer):
-    resource = serializers.SerializerMethodField()
-
     class Meta:
         model = ResourceContent
         fields = "__all__"
 
+
+class ResourceDetailSerializers(serializers.ModelSerializer):
+    resources = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Resource
+        fields = "__all__"
+
     @staticmethod
-    def get_resource(obj):
-        return ResourceSerializers(obj.resource).data
+    def get_resources(obj):
+        return ResourceContentSerializers(obj.resource_content.all(), many=True).data
 
 
 class AnnouncementSerializers(serializers.ModelSerializer):
@@ -49,7 +55,6 @@ class ServicesSerializers(serializers.ModelSerializer):
 
 
 class InformationServiceImagesSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = ContentImages
         fields = "__all__"
