@@ -1,7 +1,7 @@
 from modeltranslation.translator import TranslationOptions, register
 
 from .models import (
-    InformationService, Members, Product, Resource, ResourceContent, Announcement, Services
+    InformationService, Members, Product, Resource, ResourceContent, Announcement, Services, Statistics
 )
 
 
@@ -38,3 +38,8 @@ class ServicesOptions(TranslationOptions):
 @register(InformationService)
 class InformationServiceOptions(TranslationOptions):
     fields = ('title', 'content')
+
+
+@register(Statistics)
+class StatisticsOptions(TranslationOptions):
+    fields = ('name',)

@@ -4,7 +4,7 @@ from rest_framework import routers
 from .views import (
     CreateEmailMessages, MembersViews, InformationServiceViews, InformationServiceDetailViews,
     ProductDetailView, ResourceDetailView, AnnouncementView, ServicesListViews, ServicesDetailViews, ResourceList,
-    ProductList, PartnersList, ContactUsView
+    ProductList, PartnersList, ContactUsView, StatisticsList
 )
 
 router = routers.DefaultRouter()
@@ -29,7 +29,10 @@ urlpatterns = [
     path('cat/detail/<int:pk>', InformationServiceDetailViews.as_view(), name='info-services-detail'),
 
     path('partners', PartnersList.as_view(), name='partners-list'),
+
     path('contact', ContactUsView.as_view(), name='contact'),
+
+    path('statistics', StatisticsList.as_view(), name='statistics'),
 
 ]
 

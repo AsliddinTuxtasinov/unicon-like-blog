@@ -7,12 +7,12 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
-    InformationServiceContentViewsModel, Partners, ContactUs
+    InformationServiceContentViewsModel, Partners, ContactUs, Statistics
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
     ProductSerializers, ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
-    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers
+    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers
 )
 from .utils import error_response_404, get_mac_address, convert_text_to_hash
 
@@ -265,6 +265,12 @@ class InformationServiceDetailViews(RetrieveAPIView):
 class PartnersList(ListAPIView):
     queryset = Partners.objects.all()
     serializer_class = PartnersSerializers
+    permission_classes = [AllowAny]
+
+
+class StatisticsList(ListAPIView):
+    queryset = Statistics.objects.all()
+    serializer_class = StatisticsSerializers
     permission_classes = [AllowAny]
 
 

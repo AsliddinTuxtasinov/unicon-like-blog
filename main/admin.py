@@ -7,7 +7,8 @@ from modeltranslation.admin import TranslationAdmin
 
 from .models import (
     EmailMessages, InformationService, ContentImages, Members, Product,
-    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners
+    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners,
+    Statistics
 )
 
 
@@ -80,4 +81,9 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 @admin.register(Partners)
 class PartnersAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+
+
+@admin.register(Statistics)
+class StatisticsAdmin(TranslationAdmin):
     list_display = ["name"]

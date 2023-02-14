@@ -186,3 +186,15 @@ class Partners(models.Model):
     class Meta:
         verbose_name_plural = _("Partners")
         verbose_name = _("Partner")
+
+
+class Statistics(models.Model):
+    name = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.name} - {self.value}"
+
+    class Meta:
+        verbose_name_plural = _("Statistics")
+        verbose_name = _("Statistic")
