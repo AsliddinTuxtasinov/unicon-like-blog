@@ -195,10 +195,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # EmailBackend SMTP Settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'asliddintukhtasinov5@gmail.com'
-EMAIL_HOST_PASSWORD = "kdmgdoalbmutjyxa"
+EMAIL_HOST_USER = 'nurbekdavronbekov@yandex.ru'
+EMAIL_HOST_PASSWORD = "lbizexdcaogrbpuh"
 
 # CKEDITOR settings
 CKEDITOR_CONFIGS = {
