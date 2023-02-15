@@ -15,19 +15,20 @@ from corsheaders.defaults import default_methods, default_headers
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = 'django-insecure-al3wo59oohit$xp$4jn*h^2h=7p0*&sr#grnr@)a1@7$bbcs)s'
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG')
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -76,14 +77,8 @@ ROOT_URLCONF = 'unicon.urls'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-CORS_ALLOWED_ORIGINS = [
-#CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-
-    "http://localhost:3001",
-    "http://127.0.0.1:3001",
-
+# CORS_ALLOWED_ORIGINS = [
+CORS_ORIGIN_WHITELIST = [
     "https://front.unicon.uz",
     "http://front.unicon.uz",
 ]
@@ -141,9 +136,9 @@ DATABASES = {
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': os.getenv('DB_NAME'),  # your_database_name,
-#        'USER': os.getenv('DB_USER'),  # your_database_user
-#        'PASSWORD': os.getenv('DB_PASSWORD'),  # your_database_password
+#        'NAME': 'your_database_name',
+#        'USER': 'your_database_user'
+#        'PASSWORD': 'your_database_password'
 #        'HOST': 'localhost',
 #        'PORT': '3306',
 #    }
@@ -194,11 +189,10 @@ LOCALE_PATHS = [
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # white noise settings
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedStaticFilesStorage"
 WHITENOISE_IGNORE_MISSING_FILE = True
 
 # Media files
@@ -214,10 +208,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
-EMAIL_HOST = os.getenv('EMAIL_HOST')
+EMAIL_HOST = 'smtp.yandex.ru'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_USER = 'nurbekdavronbekov@yandex.ru'
+EMAIL_HOST_PASSWORD = 'lbizexdcaogrbpuh'
 
 # CKEDITOR settings
 CKEDITOR_CONFIGS = {
