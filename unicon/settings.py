@@ -80,7 +80,7 @@ CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOWED_ORIGINS = [
 CORS_ORIGIN_WHITELIST = [
     "https://front.unicon.uz",
-    "http://front.unicon.uz"
+    "http://front.unicon.uz",
     
     "http://localhost:3000"
 ]

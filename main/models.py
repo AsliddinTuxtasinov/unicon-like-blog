@@ -1,4 +1,5 @@
 from ckeditor.fields import RichTextField
+from django.core.validators import FileExtensionValidator
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
@@ -110,8 +111,9 @@ class InformationService(models.Model):
         PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
         VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
         MEMORANDUM = 'MM', _("MEMORANDUM")
+        OAV_ABOUT_US = 'oav', _("OAV_ABOUT_US")
 
-    info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
+    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
 
     title = models.CharField(max_length=255)
     content = RichTextField()
@@ -134,9 +136,18 @@ class InformationServiceContentViewsModel(models.Model):
     mac_address = models.CharField(max_length=255)
 
 
-class ContentImages(models.Model):
+class ContentAdditionalFiles(models.Model):
     content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
-    image = models.ImageField(upload_to="content/content-images")
+    file = models.FileField(upload_to="content/content-files",
+                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'mp4'])])
+
+    @property
+    def is_video(self):
+        if self.file:
+            extension = str(self.file.url).split('.')[-1]
+            if extension == 'mp4':
+                return True
+        return False
 
 
 class EmailMessages(models.Model):

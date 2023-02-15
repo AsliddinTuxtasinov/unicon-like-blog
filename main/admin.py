@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from modeltranslation.admin import TranslationAdmin
 
 from .models import (
-    EmailMessages, InformationService, ContentImages, Members, Product,
+    EmailMessages, InformationService, ContentAdditionalFiles, Members, Product,
     Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners,
     Statistics
 )
@@ -51,15 +51,17 @@ class EmailMessagesAdmin(admin.ModelAdmin):
 
 
 class ContentImagesInline(admin.TabularInline):
-    model = ContentImages
+    model = ContentAdditionalFiles
+    readonly_fields = ['is_video']
     extra = 1
 
 
 @admin.register(InformationService)
 class InformationServiceAdmin(TranslationAdmin):
-    list_display = ["title", "created_at"]
+    list_display = ["title", "info_cat", "created_at"]
     inlines = [ContentImagesInline]
     readonly_fields = ["views_count"]
+    list_filter = ["info_cat"]
 
     formfield_overrides = {
         RichTextField: {'widget': CKEditorWidget()}

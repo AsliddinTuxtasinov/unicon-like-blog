@@ -199,7 +199,7 @@ class CreateEmailMessages(CreateAPIView):
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["Information Service (Axborot Xizmati)"],
     operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish",
-    operation_description="type=['yangiliklar', 'foto', 'video', 'memorandum'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
+    operation_description="type=['yangiliklar', 'foto', 'video', 'memorandum', 'oav'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
     operation_id="info-services",
     responses={
         '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
@@ -214,6 +214,7 @@ class InformationServiceViews(APIView):
         'foto': InformationService.InformationServiceCat.PHOTO_REPORT,
         'video': InformationService.InformationServiceCat.VIDEO_REPORT,
         'memorandum': InformationService.InformationServiceCat.MEMORANDUM,
+        'oav': InformationService.InformationServiceCat.OAV_ABOUT_US,
     }
 
     def get(self, *args, **kwargs):

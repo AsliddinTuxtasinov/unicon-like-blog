@@ -1,5 +1,5 @@
 from .models import (
-    EmailMessages, InformationService, ContentImages, Members, Product, Resource,
+    EmailMessages, InformationService, ContentAdditionalFiles, Members, Product, Resource,
     ResourceContent, Announcement, Services, ContactUs, Partners, Statistics
 )
 from rest_framework import serializers
@@ -55,13 +55,15 @@ class ServicesSerializers(serializers.ModelSerializer):
 
 
 class InformationServiceImagesSerializers(serializers.ModelSerializer):
+    is_video = serializers.BooleanField()
+
     class Meta:
-        model = ContentImages
+        model = ContentAdditionalFiles
         fields = "__all__"
 
 
 class InformationServiceSerializers(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField()
+    files = serializers.SerializerMethodField()
     views_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -69,7 +71,7 @@ class InformationServiceSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
     @staticmethod
-    def get_images(obj):
+    def get_files(obj):
         return InformationServiceImagesSerializers(obj.content_images.all(), many=True).data
 
     @staticmethod
