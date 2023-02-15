@@ -47,7 +47,7 @@ class ServicesAdmin(TranslationAdmin):
 class EmailMessagesAdmin(admin.ModelAdmin):
     list_display = ["name", "services"]
     list_filter = ["services"]
-    readonly_fields = ["created_add"]
+    readonly_fields = ["created_at"]
 
 
 class ContentImagesInline(admin.TabularInline):
@@ -78,7 +78,8 @@ admin.site.unregister(Group)
 
 @admin.register(ContactUs)
 class ContactUsAdmin(admin.ModelAdmin):
-    list_display = ["full_name", "email", "phone_number", "created_add"]
+    list_display = ["full_name", "email", "phone_number", "created_at"]
+    readonly_fields = ['created_at']
 
 
 @admin.register(Partners)

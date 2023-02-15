@@ -159,10 +159,10 @@ class EmailMessages(models.Model):
     message = models.TextField()
     file = models.FileField(null=True, blank=True, upload_to="file-message/")
 
-    created_add = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name}-{self.email}-{self.created_add}"
+        return f"{self.name}-{self.email}-{self.created_at}"
 
     class Meta:
         verbose_name_plural = _("Email xabarlar")
@@ -175,10 +175,10 @@ class ContactUs(models.Model):
     phone_number = models.CharField(max_length=50)
     message = models.TextField()
 
-    created_add = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.full_name}-{self.email}-{self.created_add}"
+        return f"{self.full_name}-{self.email}-{self.created_at}"
 
     class Meta:
         verbose_name_plural = _("Contacts")

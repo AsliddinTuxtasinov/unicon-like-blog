@@ -44,7 +44,7 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
                        f"E-mail: {instance.email}\n" \
                        f"Tel: {instance.phone_number}\n" \
                        f"Xabbar: {instance.message}\n" \
-                       f"Yuborilgan vaqti: {instance.created_add}"
+                       f"Yuborilgan vaqti: {instance.created_at.strftime('%d-%B, %Y-yil %H:%M')}"
 
         # create an EmailMessage object with the given subject, message, and sender and recipient email addresses
         email = sendMail(

@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 
 from aiogram import types
 
@@ -9,7 +10,6 @@ from main.models import EmailMessages, ContactUs
 from telegram.bot import bot, dp
 from telegram.models import TelegramBot
 from aiogram.utils.exceptions import BotKicked
-
 
 chat_ids = TelegramBot.objects.all()
 
@@ -49,13 +49,14 @@ async def send_message(chat_id, message_text, file=None):
 @receiver(post_save, sender=EmailMessages)
 def send_email_on_post_creation(sender, instance, created, **kwargs):
     if created:
+        t = instance.created_at + datetime.timedelta(hours=5)
         message_text = f"<b>Bo'lim:</b> {instance.services.name_uz}\n" \
                        f"<b>Bo'lim email:</b> {instance.services.email}\n" \
                        f"<b>FISH/Tashkilot nomi:</b> {instance.name}\n" \
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabbar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b>{instance.created_add}"
+                       f"<b>Yuborilgan vaqti: </b>{t.strftime('%d-%B, %Y-yil %H:%M')}"
 
         if instance.file:
             file_instance = instance.file.path
@@ -70,11 +71,12 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
 @receiver(post_save, sender=ContactUs)
 def send_message_on_contact_creation(sender, instance, created, **kwargs):
     if created:
+        t = instance.created_at + datetime.timedelta(hours=5)
         message_text = f"<b>F.I.SH/Tashkilot nomi:</b> {instance.full_name}\n" \
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b> {instance.created_add}"
+                       f"<b>Yuborilgan vaqti: </b> {t.strftime('%d-%B, %Y-yil %H:%M')}"
 
         if chat_ids:
             for obj_id in chat_ids:
