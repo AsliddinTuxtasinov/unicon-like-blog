@@ -34,8 +34,8 @@ class Product(models.Model):
         return self.title
 
     class Meta:
-        verbose_name_plural = _("Xizmatlar")
-        verbose_name = _("Xizmat")
+        verbose_name_plural = _("Bo'limlar")
+        verbose_name = _("Bo'lim")
 
 
 # Resource -> About Us
@@ -89,6 +89,7 @@ class Announcement(models.Model):
 
 class Services(models.Model):
     name = models.CharField(max_length=255)
+    icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
     email = models.EmailField(blank=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     content = RichTextField(blank=True)
@@ -99,8 +100,8 @@ class Services(models.Model):
         return self.name
 
     class Meta:
-        verbose_name_plural = _("Bo'limlar")
-        verbose_name = _("Bo'lim")
+        verbose_name_plural = _("Xizmatlar")
+        verbose_name = _("Xizmat")
 
 
 class InformationService(models.Model):
@@ -144,11 +145,8 @@ class EmailMessages(models.Model):
     name = models.CharField(verbose_name="FISH or Name organization", max_length=255)
     email = models.EmailField()
     phone_number = models.CharField(max_length=50)
-    # full_name = models.CharField(max_length=255)
-    # title = models.CharField(max_length=255)
     message = models.TextField()
     file = models.FileField(null=True, blank=True, upload_to="file-message/")
-    # is_agree = models.BooleanField()
 
     created_add = models.DateField(auto_now_add=True)
 

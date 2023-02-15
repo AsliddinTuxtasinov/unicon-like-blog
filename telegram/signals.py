@@ -49,7 +49,7 @@ async def send_message(chat_id, message_text, file=None):
 @receiver(post_save, sender=EmailMessages)
 def send_email_on_post_creation(sender, instance, created, **kwargs):
     if created:
-        message_text = f"<b>Bo'lim:</b> {instance.services.name}\n" \
+        message_text = f"<b>Bo'lim:</b> {instance.services.name_uz}\n" \
                        f"<b>Bo'lim email:</b> {instance.services.email}\n" \
                        f"<b>FISH/Tashkilot nomi:</b> {instance.name}\n" \
                        f"<b>E-mail:</b> {instance.email}\n" \

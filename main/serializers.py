@@ -78,6 +78,8 @@ class InformationServiceSerializers(serializers.ModelSerializer):
 
 
 class EmailMessagesSerializers(serializers.ModelSerializer):
+    file = serializers.FileField(required=False)
+
     class Meta:
         model = EmailMessages
         fields = "__all__"
