@@ -258,7 +258,7 @@ class InformationServiceDetailViews(RetrieveAPIView):
         if InformationServiceContentViewsModel.objects.filter(
                 content=instance,
                 mac_address=mac_address,
-        ).count() <= 0:
+        ).count() < 1:
             obj = InformationServiceContentViewsModel(mac_address=mac_address)
             obj.save()
             obj.content.add(instance)

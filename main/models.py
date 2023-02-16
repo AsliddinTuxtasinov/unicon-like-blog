@@ -131,7 +131,7 @@ class EmailMessages(models.Model):
 # InformationService (Axborot xizmatlari)
 class InformationService(models.Model):
     class InformationServiceCat(models.TextChoices):
-        NEWS = 'NS', _('news')
+        NEWS = 'NS', _('NEWS')
         PHOTO_REPORT = 'PR', _("PHOTO REPORT")
         MEMORANDUM = 'MM', _("MEMORANDUM")
         OAV_ABOUT_US = 'oav', _("OAV ABOUT US")

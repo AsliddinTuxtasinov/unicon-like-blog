@@ -72,9 +72,11 @@ class InformationServiceAdmin(TranslationAdmin):
 admin.site.unregister(Group)
 
 
-# @admin.register(InformationServiceContentViewsModel)
-# class InformationServiceContentViewsModelAdmin(admin.ModelAdmin):
-#     pass
+# ======
+@admin.register(InformationServiceContentViewsModel)
+class InformationServiceContentViewsModelAdmin(admin.ModelAdmin):
+    pass
+# ======
 
 
 @admin.register(ContactUs)
