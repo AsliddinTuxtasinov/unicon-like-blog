@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 
 
+# Members
 class Members(models.Model):
     class MembersCat(models.TextChoices):
         LEADERSHIP = 'RT', _('RAXBARIYAT')
@@ -25,6 +26,7 @@ class Members(models.Model):
         verbose_name_plural = "Members"
 
 
+# product (hozircha -> ho'limlar)
 class Product(models.Model):
     title = models.CharField(max_length=255)
     icon = models.ImageField(upload_to="content/nav-about-product-icon")
@@ -39,7 +41,7 @@ class Product(models.Model):
         verbose_name = _("Bo'lim")
 
 
-# Resource -> About Us
+# Resources
 class Resource(models.Model):
     title = models.CharField(max_length=255)
     short_desc = models.CharField(max_length=255)
@@ -66,6 +68,7 @@ class ResourceContent(models.Model):
         verbose_name = _("Resurs conteni")
 
 
+# Announcement (E'lonlar)
 class Announcement(models.Model):
     class AnnouncementCat(models.TextChoices):
         COMPETITIONS = 'CS', _('KONKURSLAR')
@@ -88,6 +91,7 @@ class Announcement(models.Model):
         verbose_name = _("E'lon")
 
 
+# Services (Xizmatlar)
 class Services(models.Model):
     name = models.CharField(max_length=255)
     icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
@@ -103,51 +107,6 @@ class Services(models.Model):
     class Meta:
         verbose_name_plural = _("Xizmatlar")
         verbose_name = _("Xizmat")
-
-
-class InformationService(models.Model):
-    class InformationServiceCat(models.TextChoices):
-        NEWS = 'NS', _('YANGILIKLAR')
-        PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
-        VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
-        MEMORANDUM = 'MM', _("MEMORANDUM")
-        OAV_ABOUT_US = 'oav', _("OAV_ABOUT_US")
-
-    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
-
-    title = models.CharField(max_length=255)
-    content = RichTextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    @property
-    def views_count(self):
-        return self.content_views_count.count()
-
-    class Meta:
-        verbose_name_plural = _("Axborat xizmatlari")
-        verbose_name = _("Axborat xizmati")
-
-
-class InformationServiceContentViewsModel(models.Model):
-    content = models.ManyToManyField(to=InformationService, related_name="content_views_count")
-    mac_address = models.CharField(max_length=255)
-
-
-class ContentAdditionalFiles(models.Model):
-    content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
-    file = models.FileField(upload_to="content/content-files",
-                            validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'mp4'])])
-
-    @property
-    def is_video(self):
-        if self.file:
-            extension = str(self.file.url).split('.')[-1]
-            if extension == 'mp4':
-                return True
-        return False
 
 
 class EmailMessages(models.Model):
@@ -169,6 +128,86 @@ class EmailMessages(models.Model):
         verbose_name = _("Email xabari")
 
 
+# InformationService (Axborot xizmatlari)
+# InformationService -> Photos part
+class InformationService(models.Model):
+    class InformationServiceCat(models.TextChoices):
+        NEWS = 'NS', _('YANGILIKLAR')
+        PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
+        MEMORANDUM = 'MM', _("MEMORANDUM")
+
+    info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
+
+    title = models.CharField(max_length=255)
+    content = RichTextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def views_count(self):
+        return self.content_views_count.count()
+
+    class Meta:
+        verbose_name_plural = _("Axborat xizmatlari")
+        verbose_name = _("Axborat xizmati")
+
+
+class ContentAdditionalFiles(models.Model):
+    content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
+    image = models.ImageField(upload_to="content/content-photo-files")
+
+    @property
+    def is_video(self):
+        return False
+
+
+class InformationServiceContentViewsModel(models.Model):
+    content = models.ManyToManyField(to=InformationService, related_name="content_views_count")
+    mac_address = models.CharField(max_length=255)
+
+
+# InformationServiceWithVideo -> Videos part
+class InformationServiceWithVideo(models.Model):
+    class InformationServiceCat(models.TextChoices):
+        VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
+        OAV_ABOUT_US = 'oav', _("OAV_ABOUT_US")
+
+    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
+
+    title = models.CharField(max_length=255)
+    content = RichTextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+    @property
+    def views_count(self):
+        return self.content_views_count.count()
+
+    class Meta:
+        verbose_name_plural = _("Axborat xizmatlari Video")
+        verbose_name = _("Axborat xizmati")
+
+
+class ContentAdditionalFilesForVideo(models.Model):
+    content = models.ForeignKey(to=InformationServiceWithVideo, on_delete=models.CASCADE, related_name="content_videos")
+    video = models.FileField(upload_to="content/content-video-files",
+                             validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
+
+    @property
+    def is_video(self):
+        return True
+
+
+class InformationServiceContentVideoViewsModel(models.Model):
+    content = models.ManyToManyField(to=InformationServiceWithVideo, related_name="content_views_count")
+    mac_address = models.CharField(max_length=255)
+
+
+# Contact Uz
 class ContactUs(models.Model):
     full_name = models.CharField(max_length=255, verbose_name="full name or organization name")
     email = models.EmailField()
@@ -185,6 +224,7 @@ class ContactUs(models.Model):
         verbose_name = _("Contact")
 
 
+# Partners (hamkorlar)
 class Partners(models.Model):
     name = models.CharField(max_length=255)
     icon = models.ImageField(upload_to="media/partners-icon")
@@ -197,6 +237,7 @@ class Partners(models.Model):
         verbose_name = _("Partner")
 
 
+# Statistics (statistika hozircha ruchnoy)
 class Statistics(models.Model):
     name = models.CharField(max_length=255)
     value = models.CharField(max_length=255)

@@ -7,12 +7,14 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
-    InformationServiceContentViewsModel, Partners, ContactUs, Statistics
+    InformationServiceContentViewsModel, Partners, ContactUs, Statistics, InformationServiceWithVideo,
+    InformationServiceContentVideoViewsModel
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
     ProductSerializers, ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
-    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers
+    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers,
+    InformationServiceWithVideoSerializers
 )
 from .utils import error_response_404, get_mac_address, convert_text_to_hash
 
@@ -196,10 +198,12 @@ class CreateEmailMessages(CreateAPIView):
     permission_classes = [AllowAny]
 
 
+# InformationService (Axborot xizmatlari)
+# InformationService -> Photos part
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["Information Service (Axborot Xizmati)"],
-    operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish",
-    operation_description="type=['yangiliklar', 'foto', 'video', 'memorandum', 'oav'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
+    operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish [only photo items section]",
+    operation_description="type=['yangiliklar', 'foto', 'memorandum'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
     operation_id="info-services",
     responses={
         '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
@@ -212,9 +216,7 @@ class InformationServiceViews(APIView):
     types_api = {
         'yangiliklar': InformationService.InformationServiceCat.NEWS,
         'foto': InformationService.InformationServiceCat.PHOTO_REPORT,
-        'video': InformationService.InformationServiceCat.VIDEO_REPORT,
         'memorandum': InformationService.InformationServiceCat.MEMORANDUM,
-        'oav': InformationService.InformationServiceCat.OAV_ABOUT_US,
     }
 
     def get(self, *args, **kwargs):
@@ -237,7 +239,7 @@ class InformationServiceViews(APIView):
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["Information Service (Axborot Xizmati)"],
-    operation_summary="Information Service (Axborot Xizmati) detail olish",
+    operation_summary="Information Service (Axborot Xizmati) [only photo items] detail olish",
     operation_description="id - bu orqali objects ni detail data sini oladi",
     operation_id="info-services-detail",
     responses={
@@ -258,6 +260,72 @@ class InformationServiceDetailViews(RetrieveAPIView):
                 mac_address=mac_address,
         ).count() <= 0:
             obj = InformationServiceContentViewsModel(mac_address=mac_address)
+            obj.save()
+            obj.content.add(instance)
+        return response.Response(serializer.data)
+
+
+# InformationServiceWithVideo -> Videos part
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Information Service (Axborot Xizmati)"],
+    operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish [only video items]",
+    operation_description="type=['video', 'oav'] - shulardan biri bo'lishi mumkin va bu orqali objects ni filterlab beradi",
+    operation_id="info-services-video",
+    responses={
+        '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) ro'yxati keladi"}
+))
+class InformationServiceWithVideoViews(APIView):
+    # Define the serializer class to be used for this view
+    serializer_class = InformationServiceWithVideoSerializers
+    model = InformationServiceWithVideo
+
+    # Create a dictionary mapping string values in the URL to constants in the model
+    types_api = {
+        'video': model.InformationServiceCat.VIDEO_REPORT,
+        'oav': model.InformationServiceCat.OAV_ABOUT_US,
+    }
+
+    def get(self, *args, **kwargs):
+        # Get the value of the "type" argument from the URL
+        # Look up the corresponding constant value in the model based on the string argument
+        type_api = self.types_api.get(kwargs.get("type", "").lower(), None)
+        # If the argument is not recognized, return a 404 error response
+        if type_api is None:
+            error_response_404()
+
+        # Filter the announcements based on the provided "type" argument
+        obj = self.model.objects.filter(info_cat=type_api)
+
+        # Use the defined serializer class to serialize the filtered announcements
+        serializer = self.serializer_class(obj, many=True)
+
+        # Return the serialized data in a 200 OK response
+        return response.Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Information Service (Axborot Xizmati)"],
+    operation_summary="Information Service (Axborot Xizmati) [only video items] detail olish",
+    operation_description="id - bu orqali objects ni detail data sini oladi",
+    operation_id="info-services-video-detail",
+    responses={
+        '200': "Response json ko'rinishida bo'ladi va object(Information Service [Axborot Xizmati]) detail keladi"}
+))
+class InformationServiceWithVideoDetailViews(RetrieveAPIView):
+    serializer_class = InformationServiceWithVideoSerializers
+    queryset = InformationServiceWithVideo.objects.all()
+    permission_classes = [AllowAny]
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance)
+
+        mac_address = convert_text_to_hash(str(get_mac_address()))
+        if InformationServiceContentVideoViewsModel.objects.filter(
+                content=instance,
+                mac_address=mac_address,
+        ).count() <= 0:
+            obj = InformationServiceContentVideoViewsModel(mac_address=mac_address)
             obj.save()
             obj.content.add(instance)
         return response.Response(serializer.data)
