@@ -142,13 +142,10 @@ class InformationService(models.Model):
     title = models.CharField(max_length=255)
     content = RichTextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    views_count = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
-
-    @property
-    def views_count(self):
-        return self.content_views_count.count()
 
     class Meta:
         verbose_name_plural = _("Axborat xizmatlari")
@@ -176,11 +173,6 @@ class ContentAdditionalFiles(models.Model):
             super(ContentAdditionalFiles, self).save(*args, **kwargs)
 
         # super(ContentAdditionalFiles, self).save(*args, **kwargs)
-
-
-class InformationServiceContentViewsModel(models.Model):
-    content = models.ManyToManyField(to=InformationService, related_name="content_views_count")
-    mac_address = models.CharField(max_length=255)
 
 
 # Contact Uz

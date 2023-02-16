@@ -66,7 +66,6 @@ class InformationServiceFilesSerializers(serializers.ModelSerializer):
 
 class InformationServiceSerializers(serializers.ModelSerializer):
     files = serializers.SerializerMethodField()
-    views_count = serializers.SerializerMethodField()
 
     class Meta:
         model = InformationService
@@ -75,10 +74,6 @@ class InformationServiceSerializers(serializers.ModelSerializer):
     @staticmethod
     def get_files(obj):
         return InformationServiceFilesSerializers(obj.content_files.all(), many=True).data
-
-    @staticmethod
-    def get_views_count(obj):
-        return obj.content_views_count.count()
 
 
 class EmailMessagesSerializers(serializers.ModelSerializer):

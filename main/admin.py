@@ -7,7 +7,7 @@ from modeltranslation.admin import TranslationAdmin
 
 from .models import (
     EmailMessages, InformationService, ContentAdditionalFiles, Members, Product,
-    Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners,
+    Resource, ResourceContent, Announcement, Services, ContactUs, Partners,
     Statistics,
 )
 
@@ -70,13 +70,6 @@ class InformationServiceAdmin(TranslationAdmin):
 
 
 admin.site.unregister(Group)
-
-
-# ======
-@admin.register(InformationServiceContentViewsModel)
-class InformationServiceContentViewsModelAdmin(admin.ModelAdmin):
-    pass
-# ======
 
 
 @admin.register(ContactUs)

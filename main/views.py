@@ -7,14 +7,14 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
-    InformationServiceContentViewsModel, Partners, ContactUs, Statistics
+    Partners, ContactUs, Statistics
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
     ProductSerializers, ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
     PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers,
 )
-from .utils import error_response_404, get_mac_address, convert_text_to_hash
+from .utils import error_response_404
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
@@ -254,14 +254,19 @@ class InformationServiceDetailViews(RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
 
-        mac_address = convert_text_to_hash(str(get_mac_address()))
-        if InformationServiceContentViewsModel.objects.filter(
-                content=instance,
-                mac_address=mac_address,
-        ).count() < 1:
-            obj = InformationServiceContentViewsModel(mac_address=mac_address)
-            obj.save()
-            obj.content.add(instance)
+        # Check if the user has viewed this post before
+        viewed_posts = request.session.get('viewed_posts', [])
+
+        if instance.id not in viewed_posts:
+            # User has not viewed this post before, so increment the view count
+            instance.views_count += 1
+            instance.save()
+
+            # Add the post ID to the viewed_posts session
+            viewed_posts.append(instance.id)
+            request.session['viewed_posts'] = viewed_posts
+
+        # User has already viewed this post, so don't increment the view count
         return response.Response(serializer.data)
 
 
