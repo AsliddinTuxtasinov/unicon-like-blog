@@ -3,8 +3,8 @@ from rest_framework import routers
 
 from .views import (
     CreateEmailMessages, MembersViews, InformationServiceViews, InformationServiceDetailViews,
-    ProductDetailView, ResourceDetailView, AnnouncementView, ServicesListViews, ServicesDetailViews, ResourceList,
-    ProductList, PartnersList, ContactUsView, StatisticsList
+    ResourceDetailView, AnnouncementView, ServicesListViews, ServicesDetailViews, ResourceList,
+    ModulsList, ModulDetailView, PartnersList, ContactUsView, StatisticsList
 )
 
 router = routers.DefaultRouter()
@@ -14,9 +14,10 @@ urlpatterns = [
 
     path('member/<str:member_type>', MembersViews.as_view(), name='members-list'),
 
-    path('product/mahsulotlar', ProductList.as_view(), name='product-list'),
+    path('moduls', ModulsList.as_view(), name='moduls-list'),
+    path('moduls/<int:pk>', ModulDetailView.as_view(), name='moduls-detail'),
+
     path('product/resurslar', ResourceList.as_view(), name='resource-list'),
-    path('product/detail/<int:pk>', ProductDetailView.as_view(), name='product-detail'),
     path('resource/detail/<int:pk>', ResourceDetailView.as_view(), name='resource-detail'),
 
     path('xabarlar/<str:type>', AnnouncementView.as_view(), name='announcement-list'),

@@ -26,15 +26,32 @@ class Members(models.Model):
         verbose_name_plural = "Members"
 
 
-# product (hozircha -> ho'limlar)
-class Product(models.Model):
-    title = models.CharField(max_length=255)
-    icon = models.ImageField(upload_to="content/nav-about-product-icon")
-    img = models.ImageField(upload_to="content/nav-about-product-img", blank=True, null=True)
-    content = RichTextField()
+# Modul (hozircha -> ho'limlar)
+class Modul(models.Model):
+    class ModulValidStatus(models.TextChoices):
+        ACTING = 'ACTING', _('ACTING')
+
+    state_register_number = models.CharField(max_length=255)
+    valid_status = models.CharField(max_length=6, choices=ModulValidStatus.choices)
+    name_of_the_legal_entity = models.TextField()
+    itn = models.CharField(max_length=50)
+    legal_entity_address = models.TextField()
+    telephone = models.CharField(max_length=255)
+    email = models.EmailField()
+    web_site = models.URLField()
+    full_name_head_of_accretion_body = models.CharField(
+        max_length=255)  # keyinchalik OneToOne bilan members ga boglab qoyamiz
+    accreditation_object_address = models.TextField()
+    accreditation_date = models.DateTimeField()
+    link_to_the_scope_of_accreditation = models.FileField(upload_to="content/module-file")
+    certificate_of_accreditation = models.FileField(upload_to="content/module-file")
+    type_of_accreditation_object = models.CharField(max_length=255)
+    status_date = models.DateTimeField()
+    validity_period_of_the_accreditation_certificate = models.DateTimeField()
+    standard = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.title
+        return self.name_of_the_legal_entity
 
     class Meta:
         verbose_name_plural = _("Bo'limlar")

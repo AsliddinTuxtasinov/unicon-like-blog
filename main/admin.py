@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from modeltranslation.admin import TranslationAdmin
 
 from .models import (
-    EmailMessages, InformationService, ContentAdditionalFiles, Members, Product,
+    EmailMessages, InformationService, ContentAdditionalFiles, Members, Modul,
     Resource, ResourceContent, Announcement, Services, ContactUs, Partners,
     Statistics,
 )
@@ -18,9 +18,9 @@ class MembersAdmin(TranslationAdmin):
     list_filter = ["member_type"]
 
 
-@admin.register(Product)
-class ProductAdmin(TranslationAdmin):
-    list_display = ["title"]
+@admin.register(Modul)
+class ModulAdmin(admin.ModelAdmin):
+    list_display = ["state_register_number", "name_of_the_legal_entity", "accreditation_date", "valid_status"]
 
 
 @admin.register(Resource)

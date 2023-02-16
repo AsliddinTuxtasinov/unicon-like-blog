@@ -1,7 +1,7 @@
 from .models import (
     InformationService, ContentAdditionalFiles,
     Services, EmailMessages,
-    Members, Product, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics
+    Members, Modul, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics
 )
 from rest_framework import serializers
 
@@ -12,9 +12,9 @@ class MembersSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ProductSerializers(serializers.ModelSerializer):
+class ModulSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Product
+        model = Modul
         fields = "__all__"
 
 

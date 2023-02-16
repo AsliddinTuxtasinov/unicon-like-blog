@@ -1,18 +1,13 @@
 from modeltranslation.translator import TranslationOptions, register
 
 from .models import (
-    InformationService, Members, Product, Resource, ResourceContent, Announcement, Services, Statistics
+    InformationService, Members, Resource, ResourceContent, Announcement, Services, Statistics
 )
 
 
 @register(Members)
 class MembersOptions(TranslationOptions):
     fields = ('full_name', 'department', 'workday')
-
-
-@register(Product)
-class ProductOptions(TranslationOptions):
-    fields = ('title', 'content')
 
 
 @register(Resource)

@@ -6,13 +6,13 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from .models import (
-    EmailMessages, Members, Product, Resource, ResourceContent, Announcement, Services, InformationService,
-    Partners, ContactUs, Statistics
+    EmailMessages, Members, Resource, ResourceContent, Announcement, Services, InformationService,
+    Partners, ContactUs, Statistics, Modul
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
-    ProductSerializers, ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
-    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers,
+    ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
+    PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers, ModulSerializers,
 )
 from .utils import error_response_404
 
@@ -54,33 +54,33 @@ class MembersViews(APIView):
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["product or resource"],
-    operation_summary="Maxsulotlar royxatini olish",
+    tags=["Moduls"],
+    operation_summary="Moduls (bo'limlar) royxatini olish",
     operation_description="",
-    operation_id="product-list",
+    operation_id="moduls-list",
     responses={'200': "Response json ko'rinishida bo'ladi va maxsulotlar royxati keladi"}
 ))
-class ProductList(ListAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializers
+class ModulsList(ListAPIView):
+    queryset = Modul.objects.all()
+    serializer_class = ModulSerializers
     permission_classes = [AllowAny]
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["product or resource"],
-    operation_summary="Maxsulotni id orqali detail qismiga kirish",
-    operation_description="id -> maxsulot id si, uni maxsulotlar ro'yxatidan olinadi",
-    operation_id="product-detail",
+    tags=["Moduls"],
+    operation_summary="Moduls (bo'limlar) id orqali detail qismiga kirish",
+    operation_description="id -> Modul (bo'lim) id si, uni maxsulotlar ro'yxatidan olinadi",
+    operation_id="moduls-detail",
     responses={'200': "Response json ko'rinishida bo'ladi va maxsulot detail keladi"}
 ))
-class ProductDetailView(RetrieveAPIView):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializers
+class ModulDetailView(RetrieveAPIView):
+    queryset = Modul.objects.all()
+    serializer_class = ModulSerializers
     permission_classes = [AllowAny]
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["product or resource"],
+    tags=["resource"],
     operation_summary="Resurslar royxatini olish",
     operation_description="",
     operation_id="resource-list",
@@ -93,7 +93,7 @@ class ResourceList(ListAPIView):
 
 
 @method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["product or resource"],
+    tags=["resource"],
     operation_summary="Resource id orqali resurslar ichidagi resurlar ro'yxatini filter qilish",
     operation_description="id -> resurs id si, uni resurslar ro'yxatidan olinadi",
     operation_id="resource-detail",
@@ -197,7 +197,6 @@ class CreateEmailMessages(CreateAPIView):
 
 
 # InformationService (Axborot xizmatlari)
-# InformationService -> Photos part
 @method_decorator(name='get', decorator=swagger_auto_schema(
     tags=["Information Service (Axborot Xizmati)"],
     operation_summary="Information Service (Axborot Xizmati) ro'yxatini olish [only photo items section]",
@@ -256,6 +255,7 @@ class InformationServiceDetailViews(RetrieveAPIView):
 
         # Check if the user has viewed this post before
         viewed_posts = request.session.get('viewed_posts', [])
+        print(viewed_posts)
 
         if instance.id not in viewed_posts:
             # User has not viewed this post before, so increment the view count
