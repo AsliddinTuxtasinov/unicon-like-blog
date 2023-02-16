@@ -156,7 +156,7 @@ class InformationService(models.Model):
 
 
 class ContentAdditionalFiles(models.Model):
-    content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
+    content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_files")
     file = models.FileField(upload_to="content/content-files",
                             validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'mp4'])])
 
@@ -168,7 +168,8 @@ class ContentAdditionalFiles(models.Model):
         return False
 
     def save(self, *args, **kwargs):
-        if (self.content.info_cat == InformationService.InformationServiceCat.VIDEO_REPORT) or (self.content.info_cat==InformationService.InformationServiceCat.OAV_ABOUT_US):
+        if (self.content.info_cat == InformationService.InformationServiceCat.VIDEO_REPORT) or (
+                self.content.info_cat == InformationService.InformationServiceCat.OAV_ABOUT_US):
             if str(self.file.url).split(".")[-1] == "mp4":
                 super(ContentAdditionalFiles, self).save(*args, **kwargs)
         else:

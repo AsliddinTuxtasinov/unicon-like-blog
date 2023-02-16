@@ -74,7 +74,7 @@ class InformationServiceSerializers(serializers.ModelSerializer):
 
     @staticmethod
     def get_files(obj):
-        return InformationServiceFilesSerializers(obj.content_images.all(), many=True).data
+        return InformationServiceFilesSerializers(obj.content_files.all(), many=True).data
 
     @staticmethod
     def get_views_count(obj):
