@@ -129,14 +129,15 @@ class EmailMessages(models.Model):
 
 
 # InformationService (Axborot xizmatlari)
-# InformationService -> Photos part
 class InformationService(models.Model):
     class InformationServiceCat(models.TextChoices):
-        NEWS = 'NS', _('YANGILIKLAR')
-        PHOTO_REPORT = 'PR', _("FOTO REPORTAJ")
+        NEWS = 'NS', _('news')
+        PHOTO_REPORT = 'PR', _("PHOTO REPORT")
         MEMORANDUM = 'MM', _("MEMORANDUM")
+        OAV_ABOUT_US = 'oav', _("OAV ABOUT US")
+        VIDEO_REPORT = 'VR', _("VIDEO REPORT")
 
-    info_cat = models.CharField(max_length=2, choices=InformationServiceCat.choices)
+    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
 
     title = models.CharField(max_length=255)
     content = RichTextField()
@@ -156,54 +157,28 @@ class InformationService(models.Model):
 
 class ContentAdditionalFiles(models.Model):
     content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_images")
-    image = models.ImageField(upload_to="content/content-photo-files")
+    file = models.FileField(upload_to="content/content-files",
+                            validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'mp4'])])
 
     @property
     def is_video(self):
+        if self.file:
+            if str(self.file.url).split(".")[-1] == "mp4":
+                return True
         return False
+
+    def save(self, *args, **kwargs):
+        if (self.content.info_cat == InformationService.InformationServiceCat.VIDEO_REPORT) or (self.content.info_cat==InformationService.InformationServiceCat.OAV_ABOUT_US):
+            if str(self.file.url).split(".")[-1] == "mp4":
+                super(ContentAdditionalFiles, self).save(*args, **kwargs)
+        else:
+            super(ContentAdditionalFiles, self).save(*args, **kwargs)
+
+        # super(ContentAdditionalFiles, self).save(*args, **kwargs)
 
 
 class InformationServiceContentViewsModel(models.Model):
     content = models.ManyToManyField(to=InformationService, related_name="content_views_count")
-    mac_address = models.CharField(max_length=255)
-
-
-# InformationServiceWithVideo -> Videos part
-class InformationServiceWithVideo(models.Model):
-    class InformationServiceCat(models.TextChoices):
-        VIDEO_REPORT = 'VR', _("VIDEO REPORTAJ")
-        OAV_ABOUT_US = 'oav', _("OAV_ABOUT_US")
-
-    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
-
-    title = models.CharField(max_length=255)
-    content = RichTextField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return self.title
-
-    @property
-    def views_count(self):
-        return self.content_views_count.count()
-
-    class Meta:
-        verbose_name_plural = _("Axborat xizmatlari Video")
-        verbose_name = _("Axborat xizmati")
-
-
-class ContentAdditionalFilesForVideo(models.Model):
-    content = models.ForeignKey(to=InformationServiceWithVideo, on_delete=models.CASCADE, related_name="content_videos")
-    video = models.FileField(upload_to="content/content-video-files",
-                             validators=[FileExtensionValidator(allowed_extensions=['mp4'])])
-
-    @property
-    def is_video(self):
-        return True
-
-
-class InformationServiceContentVideoViewsModel(models.Model):
-    content = models.ManyToManyField(to=InformationServiceWithVideo, related_name="content_views_count")
     mac_address = models.CharField(max_length=255)
 
 

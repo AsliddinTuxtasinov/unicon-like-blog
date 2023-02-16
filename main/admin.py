@@ -8,7 +8,7 @@ from modeltranslation.admin import TranslationAdmin
 from .models import (
     EmailMessages, InformationService, ContentAdditionalFiles, Members, Product,
     Resource, ResourceContent, Announcement, Services, InformationServiceContentViewsModel, ContactUs, Partners,
-    Statistics, ContentAdditionalFilesForVideo, InformationServiceWithVideo
+    Statistics,
 )
 
 
@@ -51,8 +51,7 @@ class EmailMessagesAdmin(admin.ModelAdmin):
 
 
 # InformationService (Axborot xizmatlari)
-# InformationService -> Photos part
-class ContentImagesInline(admin.TabularInline):
+class ContentFilesInline(admin.TabularInline):
     model = ContentAdditionalFiles
     readonly_fields = ['is_video']
     extra = 1
@@ -61,26 +60,7 @@ class ContentImagesInline(admin.TabularInline):
 @admin.register(InformationService)
 class InformationServiceAdmin(TranslationAdmin):
     list_display = ["title", "info_cat", "created_at"]
-    inlines = [ContentImagesInline]
-    readonly_fields = ["views_count"]
-    list_filter = ["info_cat"]
-
-    formfield_overrides = {
-        RichTextField: {'widget': CKEditorWidget()}
-    }
-
-
-# InformationServiceWithVideo -> Videos part
-class ContentVideosInlineForInformationService(admin.TabularInline):
-    model = ContentAdditionalFilesForVideo
-    readonly_fields = ['is_video']
-    extra = 1
-
-
-@admin.register(InformationServiceWithVideo)
-class InformationServiceWithVideoAdmin(TranslationAdmin):
-    list_display = ["title", "info_cat", "created_at"]
-    inlines = [ContentVideosInlineForInformationService]
+    inlines = [ContentFilesInline]
     readonly_fields = ["views_count"]
     list_filter = ["info_cat"]
 

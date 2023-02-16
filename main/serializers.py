@@ -1,5 +1,5 @@
 from .models import (
-    InformationService, InformationServiceWithVideo, ContentAdditionalFiles, ContentAdditionalFilesForVideo,
+    InformationService, ContentAdditionalFiles,
     Services, EmailMessages,
     Members, Product, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics
 )
@@ -56,7 +56,7 @@ class ServicesSerializers(serializers.ModelSerializer):
 
 
 # InformationService
-class InformationServiceImagesSerializers(serializers.ModelSerializer):
+class InformationServiceFilesSerializers(serializers.ModelSerializer):
     is_video = serializers.BooleanField()
 
     class Meta:
@@ -65,7 +65,7 @@ class InformationServiceImagesSerializers(serializers.ModelSerializer):
 
 
 class InformationServiceSerializers(serializers.ModelSerializer):
-    images = serializers.SerializerMethodField()
+    files = serializers.SerializerMethodField()
     views_count = serializers.SerializerMethodField()
 
     class Meta:
@@ -73,41 +73,14 @@ class InformationServiceSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
     @staticmethod
-    def get_images(obj):
-        return InformationServiceImagesSerializers(obj.content_images.all(), many=True).data
+    def get_files(obj):
+        return InformationServiceFilesSerializers(obj.content_images.all(), many=True).data
 
     @staticmethod
     def get_views_count(obj):
         return obj.content_views_count.count()
 
 
-# ContentAdditionalFilesForVideo
-class InformationServiceVideoSerializers(serializers.ModelSerializer):
-    is_video = serializers.BooleanField()
-
-    class Meta:
-        model = ContentAdditionalFilesForVideo
-        fields = "__all__"
-
-
-class InformationServiceWithVideoSerializers(serializers.ModelSerializer):
-    videos = serializers.SerializerMethodField()
-    views_count = serializers.SerializerMethodField()
-
-    class Meta:
-        model = InformationServiceWithVideo
-        fields = "__all__"
-
-    @staticmethod
-    def get_videos(obj):
-        return InformationServiceVideoSerializers(obj.content_videos.all(), many=True).data
-
-    @staticmethod
-    def get_views_count(obj):
-        return obj.content_views_count.count()
-
-
-# =
 class EmailMessagesSerializers(serializers.ModelSerializer):
     file = serializers.FileField(required=False)
 

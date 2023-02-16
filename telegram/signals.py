@@ -36,14 +36,10 @@ async def send_message(chat_id, message_text, file=None):
 
     # Catch the BotKicked exception and print an error message
     # except BotKicked as e:
-    except Exception as e:
+    except BotKicked as e:
         # Handle the exception here
         print("The bot was kicked from the group chat due to the following error:")
         print(e)
-        await bot.send_message(
-            chat_id=826582690, text=str(e),
-            parse_mode=types.ParseMode.HTML
-        )
 
 
 @receiver(post_save, sender=EmailMessages)
@@ -56,7 +52,7 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabbar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b>{t.strftime('%d-%B, %Y-yil %H:%M')}"
+                       f"<b>Yuborilgan vaqti: </b>{t.strftime('%d.%M.%Y %H:%M')}"
 
         if instance.file:
             file_instance = instance.file.path
@@ -76,7 +72,7 @@ def send_message_on_contact_creation(sender, instance, created, **kwargs):
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b> {t.strftime('%d-%B, %Y-yil %H:%M')}"
+                       f"<b>Yuborilgan vaqti: </b> {t.strftime('%d.%M.%Y %H:%M')}"
 
         if chat_ids:
             for obj_id in chat_ids:
