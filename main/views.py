@@ -6,8 +6,8 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from .models import (
-    EmailMessages, Members, Resource, ResourceContent, Announcement, Services, InformationService,
-    Partners, ContactUs, Statistics, Modul, InformationServiceCat
+    EmailMessages, Members, Resource, Announcement, Services, InformationService,
+    Partners, ContactUs, Statistics, Modul
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
@@ -30,9 +30,9 @@ class MembersViews(APIView):
 
     # Map incoming member type to string representation
     member_types = {
-        "rahbariyat": Members.MembersCat.LEADERSHIP,
-        "ilmiykengash": Members.MembersCat.SCIENTIFIC_COUNCIL,
-        "team": Members.MembersCat.OUR_TEAM,
+        "rahbariyat": 'RT',
+        "ilmiykengash": 'IK',
+        "team": 'BJ',
     }
 
     def get(self, *args, **kwargs):
@@ -135,8 +135,8 @@ class AnnouncementView(APIView):
 
     # Create a dictionary mapping string values in the URL to constants in the model
     types_api = {
-        'konkurslar': Announcement.AnnouncementCat.COMPETITIONS,
-        'takliflar': Announcement.AnnouncementCat.SELECTION_OF_PROPOSALS,
+        'konkurslar': 'CS',
+        'takliflar': 'IK',
     }
 
     def get(self, *args, **kwargs):
