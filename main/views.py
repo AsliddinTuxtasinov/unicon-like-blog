@@ -253,18 +253,16 @@ class InformationServiceDetailViews(RetrieveAPIView):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
 
-        # Check if the user has viewed this post before
-        viewed_posts = request.session.get('viewed_posts', [])
-        print(viewed_posts)
+        # Check if the user has already viewed this content
+        viewed_content = request.session.get(f"content_viewed_{instance.pk}", False)
 
-        if instance.id not in viewed_posts:
-            # User has not viewed this post before, so increment the view count
-            instance.views_count += 1
+        if not viewed_content:
+            # If the user has not viewed this content, increment the view count
+            instance.views += 1
             instance.save()
 
-            # Add the post ID to the viewed_posts session
-            viewed_posts.append(instance.id)
-            request.session['viewed_posts'] = viewed_posts
+            # Set a cookie to remember that the user has viewed this content
+            request.session[f'content_viewed_{instance.pk}'] = True
 
         # User has already viewed this post, so don't increment the view count
         return response.Response(serializer.data)
