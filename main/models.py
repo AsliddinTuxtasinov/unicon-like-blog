@@ -183,8 +183,8 @@ class ContentAdditionalFiles(models.Model):
         return False
 
     def save(self, *args, **kwargs):
-        if (self.content.info_cat == InformationService.InformationServiceCat.VIDEO_REPORT) or (
-                self.content.info_cat == InformationService.InformationServiceCat.OAV_ABOUT_US):
+        if (self.content.info_cat == InformationServiceCat.VIDEO_REPORT) or (
+                self.content.info_cat == InformationServiceCat.OAV_ABOUT_US):
             if str(self.file.url).split(".")[-1] == "mp4":
                 super(ContentAdditionalFiles, self).save(*args, **kwargs)
         else:
