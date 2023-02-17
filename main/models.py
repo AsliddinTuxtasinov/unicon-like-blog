@@ -146,14 +146,15 @@ class EmailMessages(models.Model):
 
 
 # InformationService (Axborot xizmatlari)
-class InformationService(models.Model):
-    class InformationServiceCat(models.TextChoices):
-        NEWS = 'NS', _('NEWS')
-        PHOTO_REPORT = 'PR', _("PHOTO REPORT")
-        MEMORANDUM = 'MM', _("MEMORANDUM")
-        OAV_ABOUT_US = 'OU', _("OAV ABOUT US")
-        VIDEO_REPORT = 'VR', _("VIDEO REPORT")
+class InformationServiceCat(models.TextChoices):
+    NEWS = 'NS', _('NEWS')
+    PHOTO_REPORT = 'PR', _("PHOTO REPORT")
+    MEMORANDUM = 'MM', _("MEMORANDUM")
+    OAV_ABOUT_US = 'OU', _("OAV ABOUT US")
+    VIDEO_REPORT = 'VR', _("VIDEO REPORT")
 
+
+class InformationService(models.Model):
     info_cat = models.CharField(verbose_name=_("category"), max_length=2, choices=InformationServiceCat.choices)
 
     title = models.CharField(max_length=255)

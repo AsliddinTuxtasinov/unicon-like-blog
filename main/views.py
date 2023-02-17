@@ -7,7 +7,7 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     EmailMessages, Members, Resource, ResourceContent, Announcement, Services, InformationService,
-    Partners, ContactUs, Statistics, Modul
+    Partners, ContactUs, Statistics, Modul, InformationServiceCat
 )
 from .serializers import (
     EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
@@ -211,11 +211,11 @@ class InformationServiceViews(APIView):
 
     # Create a dictionary mapping string values in the URL to constants in the model
     types_api = {
-        'yangiliklar': InformationService.InformationServiceCat.NEWS,
-        'foto': InformationService.InformationServiceCat.PHOTO_REPORT,
-        'memorandum': InformationService.InformationServiceCat.MEMORANDUM,
-        'oav': InformationService.InformationServiceCat.OAV_ABOUT_US,
-        'video': InformationService.InformationServiceCat.VIDEO_REPORT,
+        'yangiliklar': InformationServiceCat.NEWS,
+        'foto': InformationServiceCat.PHOTO_REPORT,
+        'memorandum': InformationServiceCat.MEMORANDUM,
+        'oav': InformationServiceCat.OAV_ABOUT_US,
+        'video': InformationServiceCat.VIDEO_REPORT,
     }
 
     def get(self, *args, **kwargs):
