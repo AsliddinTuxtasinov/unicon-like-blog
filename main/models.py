@@ -151,10 +151,10 @@ class InformationService(models.Model):
         NEWS = 'NS', _('NEWS')
         PHOTO_REPORT = 'PR', _("PHOTO REPORT")
         MEMORANDUM = 'MM', _("MEMORANDUM")
-        OAV_ABOUT_US = 'oav', _("OAV ABOUT US")
+        OAV_ABOUT_US = 'OU', _("OAV ABOUT US")
         VIDEO_REPORT = 'VR', _("VIDEO REPORT")
 
-    info_cat = models.CharField(verbose_name=_("category"), max_length=3, choices=InformationServiceCat.choices)
+    info_cat = models.CharField(verbose_name=_("category"), max_length=2, choices=InformationServiceCat.choices)
 
     title = models.CharField(max_length=255)
     content = RichTextField()
