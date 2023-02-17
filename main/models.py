@@ -34,7 +34,7 @@ class Modul(models.Model):
     state_register_number = models.CharField(max_length=255)
     valid_status = models.CharField(max_length=6, choices=ModulValidStatus.choices)
     name_of_the_legal_entity = models.TextField()
-    itn = models.CharField(max_length=50)
+    itn = models.CharField(verbose_name="INN: ", max_length=50)
     legal_entity_address = models.TextField()
     telephone = models.CharField(max_length=255)
     email = models.EmailField()
@@ -154,7 +154,7 @@ class InformationService(models.Model):
         OAV_ABOUT_US = 'oav', _("OAV ABOUT US")
         VIDEO_REPORT = 'VR', _("VIDEO REPORT")
 
-    info_cat = models.CharField(max_length=3, choices=InformationServiceCat.choices)
+    info_cat = models.CharField(verbose_name=_("category"), max_length=3, choices=InformationServiceCat.choices)
 
     title = models.CharField(max_length=255)
     content = RichTextField()

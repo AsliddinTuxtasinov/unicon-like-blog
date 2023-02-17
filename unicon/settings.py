@@ -81,7 +81,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = [
     "https://front.unicon.uz",
     "http://front.unicon.uz",
-    
+
     "http://localhost:3000"
 ]
 
@@ -128,12 +128,12 @@ WSGI_APPLICATION = 'unicon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.sqlite3',
 #        'NAME': BASE_DIR / 'db.sqlite3',
 #    }
-#}
+# }
 
 DATABASES = {
     'default': {
@@ -143,7 +143,7 @@ DATABASES = {
         'PASSWORD': 'Unicon.uz@312',
         'HOST': 'localhost',
         'PORT': '3306',
-	'OPTIONS': {
+        'OPTIONS': {
             'autocommit': True,
         },
     }
