@@ -128,23 +128,26 @@ WSGI_APPLICATION = 'unicon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': BASE_DIR / 'db.sqlite3',
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mysql.connector.django',
+        'NAME': 'unicon_db',
+        'USER': 'unicon_db_admin',
+        'PASSWORD': 'Unicon.uz@312',
+        'HOST': 'localhost',
+        'PORT': '3306',
+	'OPTIONS': {
+            'autocommit': True,
+        },
     }
 }
-
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.mysql',
-#        'NAME': 'your_database_name',
-#        'USER': 'your_database_user'
-#        'PASSWORD': 'your_database_password'
-#        'HOST': 'localhost',
-#        'PORT': '3306',
-#    }
-# }
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
