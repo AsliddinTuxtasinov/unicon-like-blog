@@ -258,7 +258,7 @@ class InformationServiceDetailViews(RetrieveAPIView):
 
         if not viewed_content:
             # If the user has not viewed this content, increment the view count
-            instance.views += 1
+            instance.views_count += 1
             instance.save()
 
             # Set a cookie to remember that the user has viewed this content
