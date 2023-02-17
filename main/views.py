@@ -211,11 +211,11 @@ class InformationServiceViews(APIView):
 
     # Create a dictionary mapping string values in the URL to constants in the model
     types_api = {
-        'yangiliklar': InformationServiceCat.NEWS,
-        'foto': InformationServiceCat.PHOTO_REPORT,
-        'memorandum': InformationServiceCat.MEMORANDUM,
-        'oav': InformationServiceCat.OAV_ABOUT_US,
-        'video': InformationServiceCat.VIDEO_REPORT,
+        'yangiliklar': 'NS',
+        'foto': 'PR',
+        'memorandum': 'MM',
+        'oav': 'OU',
+        'video': 'VR',
     }
 
     def get(self, *args, **kwargs):
