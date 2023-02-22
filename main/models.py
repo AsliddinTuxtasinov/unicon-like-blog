@@ -50,8 +50,8 @@ class Modul(models.Model):
     validity_period_of_the_accreditation_certificate = models.DateTimeField()
     standard = models.CharField(max_length=255)
 
-    file2 = models.FileField(upload_to="content/module-file", blank=True, null=True)
     file1 = models.FileField(upload_to="content/module-file", blank=True, null=True)
+    file2 = models.FileField(upload_to="content/module-file", blank=True, null=True)
     file3 = models.FileField(upload_to="content/module-file", blank=True, null=True)
 
     def __str__(self):
