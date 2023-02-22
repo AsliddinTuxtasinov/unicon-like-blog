@@ -56,6 +56,12 @@ class Modul(models.Model):
     class Meta:
         verbose_name_plural = _("Bo'limlar")
         verbose_name = _("Bo'lim")
+    
+
+class ModulAdditionalFiles(models.Model):
+    modul = models.ForeignKey(to=Modul, on_delete=models.CASCADE, related_name="modul_files")
+    short_desc = models.CharField(max_length=255)
+    file = models.FileField(upload_to="content/module-file")
 
 
 # Resources

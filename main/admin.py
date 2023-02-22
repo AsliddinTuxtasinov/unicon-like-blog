@@ -8,7 +8,7 @@ from modeltranslation.admin import TranslationAdmin
 from .models import (
     EmailMessages, InformationService, ContentAdditionalFiles, Members, Modul,
     Resource, ResourceContent, Announcement, Services, ContactUs, Partners,
-    Statistics,
+    Statistics, ModulAdditionalFiles
 )
 
 
@@ -18,8 +18,14 @@ class MembersAdmin(TranslationAdmin):
     list_filter = ["member_type"]
 
 
+class ModulAdditionalFilesInline(admin.TabularInline):
+    model = ModulAdditionalFiles
+    extra = 1
+
+
 @admin.register(Modul)
 class ModulAdmin(admin.ModelAdmin):
+    inlines = [ModulAdditionalFilesInline]
     list_display = ["state_register_number", "name_of_the_legal_entity", "accreditation_date", "valid_status"]
 
 

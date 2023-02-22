@@ -1,7 +1,8 @@
 from .models import (
     InformationService, ContentAdditionalFiles,
     Services, EmailMessages,
-    Members, Modul, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics
+    Members, Modul, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics,
+    ModulAdditionalFiles
 )
 from rest_framework import serializers
 
@@ -12,10 +13,25 @@ class MembersSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class ModulAdditionalFilesSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ModulAdditionalFiles
+        fields = "__all__"
+
+
+
 class ModulSerializers(serializers.ModelSerializer):
+    files = serializers.SerializerMethodField()
+
     class Meta:
         model = Modul
         fields = "__all__"
+    
+    @staticmethod
+    def get_files(obj):
+        return ModulAdditionalFilesSerializers(obj.modul_files.all(), many=True).data
+
 
 
 class ResourceSerializers(serializers.ModelSerializer):

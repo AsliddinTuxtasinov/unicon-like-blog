@@ -143,8 +143,10 @@ DATABASES = {
         'PASSWORD': 'Unicon.uz@312',
         'HOST': 'localhost',
         'PORT': '3306',
-        'OPTIONS': {
-            'autocommit': True,
+	
+	'OPTIONS': {
+            'charset': 'utf8mb4',
+            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
         },
     }
 }
