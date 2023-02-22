@@ -50,18 +50,16 @@ class Modul(models.Model):
     validity_period_of_the_accreditation_certificate = models.DateTimeField()
     standard = models.CharField(max_length=255)
 
+    file2 = models.FileField(upload_to="content/module-file", blank=True, null=True)
+    file1 = models.FileField(upload_to="content/module-file", blank=True, null=True)
+    file3 = models.FileField(upload_to="content/module-file", blank=True, null=True)
+
     def __str__(self):
         return self.name_of_the_legal_entity
 
     class Meta:
         verbose_name_plural = _("Bo'limlar")
         verbose_name = _("Bo'lim")
-    
-
-class ModulAdditionalFiles(models.Model):
-    modul = models.ForeignKey(to=Modul, on_delete=models.CASCADE, related_name="modul_files")
-    short_desc = models.CharField(max_length=255)
-    file = models.FileField(upload_to="content/module-file")
 
 
 # Resources
