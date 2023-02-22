@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='informationservice',
             name='info_cat',
-            field=models.CharField(choices=[('NS', 'NEWS'), ('PR', 'PHOTO REPORT'), ('MM', 'MEMORANDUM'), ('OU', 'OAV ABOUT US'), ('VR', 'VIDEO REPORT')], max_length=2, verbose_name='category'),
             field=models.CharField(choices=[('NS', 'NEWS'), ('PR', 'PHOTO REPORT'), ('MM', 'MEMORANDUM'), ('oav', 'OAV ABOUT US'), ('VR', 'VIDEO REPORT')], max_length=3, verbose_name='category'),
         ),
         migrations.AlterField(
