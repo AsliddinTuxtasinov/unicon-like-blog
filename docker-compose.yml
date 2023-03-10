@@ -1,16 +1,40 @@
 version: '3'
-
 services:
-  django_gunicorn:
+  django:
     build: .
-    # command: gunicorn unicon.wsgi:application --bind 0.0.0.0:8000
-    command: gunicorn --bind 0.0.0.0:8000 unicon.wsgi --workers=4
+    command: gunicorn unicon.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
     ports:
       - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: mysql:5.7
+    environment:
+      - MYSQL_DATABASE=unicon_db
+      - MYSQL_USER=unicon_db_admin
+      - MYSQL_PASSWORD=Unicon.uz@312
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
   nginx:
     build: ./nginx
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
     ports:
       - "80:80"
     depends_on:
-      - django_gunicorn
-
+      - django
+volumes:
+  db_data:
+  static_volume:
+  media_volume:

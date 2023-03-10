@@ -25,7 +25,7 @@ load_dotenv()
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = 'django-insecure-al3wo59oohit$xp$4jn*h^2h=7p0*&sr#grnr@)a1@7$bbcs)s'
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = "django-insecure-al3wo59oohit$xp$4jn*h^2h=7p0*&sr#grnr@)a1@7$bbcs)s"
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -135,22 +135,33 @@ WSGI_APPLICATION = 'unicon.wsgi.application'
 #    }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mysql.connector.django',
+#         'NAME': 'unicon_db',
+#         'USER': 'unicon_db_admin',
+#         'PASSWORD': 'Unicon.uz@312',
+#         'HOST': 'localhost',
+#         'PORT': '3306',
+	
+# 	'OPTIONS': {
+#             'charset': 'utf8mb4',
+# #            'collation': 'utf8mb4_general_ci',
+#             'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_general_ci'
+# #            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
+# #            'encoding': 'utf-8',
+#         },
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'mysql.connector.django',
+        'ENGINE': 'django.db.backends.mysql', 
         'NAME': 'unicon_db',
         'USER': 'unicon_db_admin',
-        'PASSWORD': 'Unicon.uz@312',
-        'HOST': 'localhost',
+        'PASSWORD': 'nicon.uz@312',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '3306',
-	
-	'OPTIONS': {
-            'charset': 'utf8mb4',
-#            'collation': 'utf8mb4_general_ci',
-            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_general_ci'
-#            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
-#            'encoding': 'utf-8',
-        },
     }
 }
 
