@@ -137,31 +137,23 @@ WSGI_APPLICATION = 'unicon.wsgi.application'
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'mysql.connector.django',
-#         'NAME': 'unicon_db',
+#         'ENGINE': 'django.db.backends.mysql',
+#         'HOST': 'db',
+#         'PORT': '3306',
 #         'USER': 'unicon_db_admin',
 #         'PASSWORD': 'Unicon.uz@312',
-#         'HOST': 'localhost',
-#         'PORT': '3306',
-	
-# 	'OPTIONS': {
-#             'charset': 'utf8mb4',
-# #            'collation': 'utf8mb4_general_ci',
-#             'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_general_ci'
-# #            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
-# #            'encoding': 'utf-8',
-#         },
+#         'NAME': 'unicon_db',
 #     }
 # }
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'unicon_db',
-        'USER': 'unicon_db_admin',
-        'PASSWORD': 'nicon.uz@312',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'unicon_db', 
+        'USER': 'unicon_db_admin', 
+        'PASSWORD': 'Unicon.uz@312',
+        'HOST': 'db', 
+        'PORT': '5432',
     }
 }
 

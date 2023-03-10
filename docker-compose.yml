@@ -1,6 +1,7 @@
 version: '3'
 services:
   django:
+    container_name: unicon
     build: .
     command: gunicorn unicon.wsgi:application --bind 0.0.0.0:8000
     volumes:
@@ -12,15 +13,14 @@ services:
     depends_on:
       - db
   db:
-    image: mysql:5.7
-    environment:
-      - MYSQL_DATABASE=unicon_db
-      - MYSQL_USER=unicon_db_admin
-      - MYSQL_PASSWORD=Unicon.uz@312
-    ports:
-      - "3306:3306"
+    image: postgres:14.0-alpine
+    restart: always
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=unicon_db
+      - POSTGRES_USER=unicon_db_admin
+      - POSTGRES_PASSWORD=Unicon.uz@312
   nginx:
     build: ./nginx
     logging:
