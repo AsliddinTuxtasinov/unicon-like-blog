@@ -146,10 +146,10 @@ DATABASES = {
 	
 	'OPTIONS': {
             'charset': 'utf8mb4',
-#            'collation': 'utf8mb4_general_ci',
-            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_general_ci'
-#            'init_command': 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci',
-#            'encoding': 'utf-8',
+            'init_command': 'SET character_set_connection=utf8mb4;'
+			    'SET collation_connection=utf8mb4_unicode_ci;'
+                            "SET NAMES 'utf8mb4';"
+                            "SET CHARACTER SET utf8mb4;",
         },
     }
 }
