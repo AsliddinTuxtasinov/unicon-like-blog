@@ -12,6 +12,14 @@ services:
       - "8000:8000"
     depends_on:
       - db
+  react:
+    container_name: react_app
+    build: ./react
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react:/usr/src/app
+    command: npm start
   db:
     image: postgres:14.0-alpine
     restart: always
