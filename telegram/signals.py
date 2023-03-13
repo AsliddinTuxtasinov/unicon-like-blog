@@ -52,7 +52,7 @@ def send_email_on_post_creation(sender, instance, created, **kwargs):
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabbar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b>{t.strftime('%d.%M.%Y %H:%M')}"
+                       f"<b>Yuborilgan vaqti: </b>{t.strftime('%d.%m.%Y %H:%M')}"
 
         if instance.file:
             file_instance = instance.file.path
@@ -72,7 +72,7 @@ def send_message_on_contact_creation(sender, instance, created, **kwargs):
                        f"<b>E-mail:</b> {instance.email}\n" \
                        f"<b>Tel:</b> {instance.phone_number}\n" \
                        f"<b>Xabar:</b> {instance.message}\n" \
-                       f"<b>Yuborilgan vaqti: </b> {t.strftime('%d.%M.%Y %H:%M')}"
+                       f"<b>Yuborilgan vaqti: </b> {t.strftime('%d.%m.%Y %H:%M')}"
 
         if chat_ids:
             for obj_id in chat_ids:
