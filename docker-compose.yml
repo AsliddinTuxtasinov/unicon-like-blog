@@ -1,0 +1,48 @@
+version: '3'
+services:
+  django:
+    container_name: unicon
+    build: .
+    command: gunicorn unicon.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  react:
+    container_name: react_app
+    build: ./react
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./react:/usr/src/app
+    command: npm start
+  db:
+    image: postgres:14.0-alpine
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=unicon_db
+      - POSTGRES_USER=unicon_db_admin
+      - POSTGRES_PASSWORD=Unicon.uz@312
+  nginx:
+    build: ./nginx
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "80:80"
+    depends_on:
+      - django
+volumes:
+  db_data:
+  static_volume:
+  media_volume:
