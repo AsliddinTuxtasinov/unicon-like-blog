@@ -135,17 +135,6 @@ WSGI_APPLICATION = 'unicon.wsgi.application'
 #    }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'HOST': 'db',
-#         'PORT': '3306',
-#         'USER': 'unicon_db_admin',
-#         'PASSWORD': 'Unicon.uz@312',
-#         'NAME': 'unicon_db',
-#     }
-# }
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',

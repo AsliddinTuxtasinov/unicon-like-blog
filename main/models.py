@@ -176,25 +176,48 @@ class InformationService(models.Model):
 
 class ContentAdditionalFiles(models.Model):
     content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_files")
-    file = models.FileField(upload_to="content/content-files",
-                            validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'mp4'])])
+    file = models.FileField(upload_to="content/content-files", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])], blank=True, null=True)
+    video_url = models.URLField(verbose_name="video url/link", blank=True, null=True)
 
     @property
     def is_video(self):
-        if self.file:
-            if str(self.file.url).split(".")[-1] == "mp4":
-                return True
-        return False
+        if self.video_url and not self.file:
+            return True
+        elif self.file and not self.video_url:
+            return False
 
     def save(self, *args, **kwargs):
-        if (self.content.info_cat == InformationServiceCat.VIDEO_REPORT) or (
-                self.content.info_cat == InformationServiceCat.OAV_ABOUT_US):
-            if str(self.file.url).split(".")[-1] == "mp4":
+        if self.content.info_cat in [InformationServiceCat.VIDEO_REPORT, InformationServiceCat.OAV_ABOUT_US]:
+            if (self.video_url != None) and (self.file == None):
                 super(ContentAdditionalFiles, self).save(*args, **kwargs)
         else:
-            super(ContentAdditionalFiles, self).save(*args, **kwargs)
+            if (self.video_url == None) and (self.file != None):
+                super(ContentAdditionalFiles, self).save(*args, **kwargs)
 
-        # super(ContentAdditionalFiles, self).save(*args, **kwargs)
+
+# class ContentAdditionalFiles(models.Model):
+#     content = models.ForeignKey(to=InformationService, on_delete=models.CASCADE, related_name="content_files")
+#     file = models.FileField(upload_to="content/content-files", validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])], blank=True, null=True)  # 'mp4'
+#     video_url = models.URLField(verbose_name="video url/link", blank=True, null=True)
+
+#     @property
+#     def is_video(self):
+#         if (self.video_url is not None) and (self.file is None):
+#             # if str(self.file.url).split(".")[-1] == "mp4":
+#             return True
+#         elif (self.video_url is None) and (self.file is not None):
+#             return False
+
+#     def save(self, *args, **kwargs):
+#         if (self.content.info_cat == InformationServiceCat.VIDEO_REPORT) or (self.content.info_cat == InformationServiceCat.OAV_ABOUT_US):
+#             # if str(self.file.url).split(".")[-1] == "mp4":
+#             if (self.video_url is not None) and (self.file is None):
+#                 super(ContentAdditionalFiles, self).save(*args, **kwargs)
+#         else:
+#             if (self.video_url is None) and (self.file is not None):
+#                 super(ContentAdditionalFiles, self).save(*args, **kwargs)
+
+#         # super(ContentAdditionalFiles, self).save(*args, **kwargs)
 
 
 # Contact Uz
