@@ -7,10 +7,10 @@ from rest_framework.permissions import AllowAny
 
 from .models import (
     Members, Resource, Announcement, InformationService,
-    Partners, ContactUs, Statistics, Modul
+    Partners, ContactUs, Statistics, Modul, Services
 )
 from .serializers import (
-    MembersSerializers, InformationServiceSerializers,
+    MembersSerializers, InformationServiceSerializers, ServicesSerializers,
     ResourceSerializers, AnnouncementSerializers,
     PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers, ModulSerializers,
 )
@@ -157,30 +157,30 @@ class AnnouncementView(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-# @method_decorator(name='get', decorator=swagger_auto_schema(
-#     tags=["Services"],
-#     operation_summary="Services(Xizmatlar) larni ro'yxatini olish",
-#     operation_description="",
-#     operation_id="services-list",
-#     responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
-# ))
-# class ServicesListViews(ListAPIView):
-#     serializer_class = ServicesSerializers
-#     queryset = Services.objects.all()
-#     permission_classes = [AllowAny]
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Services"],
+    operation_summary="Services(Xizmatlar) larni ro'yxatini olish",
+    operation_description="",
+    operation_id="services-list",
+    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+))
+class ServicesListViews(ListAPIView):
+    serializer_class = ServicesSerializers
+    queryset = Services.objects.all()
+    permission_classes = [AllowAny]
 
 
-# @method_decorator(name='get', decorator=swagger_auto_schema(
-#     tags=["Services"],
-#     operation_summary="Services(Xizmatlar) detail olish",
-#     operation_description="id - bu orqali service ni oladi",
-#     operation_id="services-detail",
-#     responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
-# ))
-# class ServicesDetailViews(RetrieveAPIView):
-#     queryset = Services.objects.all()
-#     serializer_class = ServicesSerializers
-#     permission_classes = [AllowAny]
+@method_decorator(name='get', decorator=swagger_auto_schema(
+    tags=["Services"],
+    operation_summary="Services(Xizmatlar) detail olish",
+    operation_description="id - bu orqali service ni oladi",
+    operation_id="services-detail",
+    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+))
+class ServicesDetailViews(RetrieveAPIView):
+    queryset = Services.objects.all()
+    serializer_class = ServicesSerializers
+    permission_classes = [AllowAny]
 
 
 # @method_decorator(name='post', decorator=swagger_auto_schema(

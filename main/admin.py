@@ -8,7 +8,7 @@ from modeltranslation.admin import TranslationAdmin
 from .models import (
     InformationService, ContentAdditionalFiles, Members, Modul,
     Resource, ResourceContent, Announcement, ContactUs, Partners,
-    Statistics
+    Statistics, Services
 )
 
 
@@ -39,9 +39,9 @@ class AnnouncementAdmin(TranslationAdmin):
     list_display = ["title", "announcement_status", "status_type"]
 
 
-# @admin.register(Services)
-# class ServicesAdmin(TranslationAdmin):
-#     list_display = ["name"]
+@admin.register(Services)
+class ServicesAdmin(TranslationAdmin):
+    list_display = ["name"]
 
 
 # @admin.register(EmailMessages)

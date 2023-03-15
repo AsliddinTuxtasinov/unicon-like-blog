@@ -3,7 +3,7 @@ from rest_framework import routers
 
 from .views import (
     MembersViews, InformationServiceViews, InformationServiceDetailViews,
-    ResourceDetailView, AnnouncementView, ResourceList,
+    ResourceDetailView, AnnouncementView, ResourceList, ServicesListViews, ServicesDetailViews,
     ModulsList, ModulDetailView, PartnersList, ContactUsView, StatisticsList
 )
 
@@ -22,12 +22,12 @@ urlpatterns = [
 
     path('xabarlar/<str:type>', AnnouncementView.as_view(), name='announcement-list'),
 
-    # path('services', ServicesListViews.as_view(), name='services-list'),
-    # path('services/detail/<int:pk>', ServicesDetailViews.as_view(), name='services-detail'),
+    path('services', ServicesListViews.as_view(), name='services-list'),
+    path('services/detail/<int:pk>', ServicesDetailViews.as_view(), name='services-detail'),
     # path('create-message', CreateEmailMessages.as_view(), name='create-message'),
 
     path('cat/<str:type>', InformationServiceViews.as_view(), name='info-services'),
-    path('cat/detail/<int:pk>', InformationServiceDetailViews.as_view(), name='info-services-detail'),
+    # path('cat/detail/<int:pk>', InformationServiceDetailViews.as_view(), name='info-services-detail'),
 
     path('partners', PartnersList.as_view(), name='partners-list'),
 

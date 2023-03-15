@@ -113,21 +113,21 @@ class Announcement(models.Model):
 
 
 # Services (Xizmatlar)
-# class Services(models.Model):
-#     name = models.CharField(max_length=255)
-#     icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
-#     email = models.EmailField(blank=True)
-#     title = models.CharField(max_length=255, blank=True, null=True)
-#     content = RichTextField(blank=True)
+class Services(models.Model):
+    name = models.CharField(max_length=255)
+    icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
+    email = models.EmailField(blank=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    content = RichTextField(blank=True)
 
-#     created_at = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
-#     def __str__(self):
-#         return self.name
+    def __str__(self):
+        return self.name
 
-#     class Meta:
-#         verbose_name_plural = _("Xizmatlar")
-#         verbose_name = _("Xizmat")
+    class Meta:
+        verbose_name_plural = _("Xizmatlar")
+        verbose_name = _("Xizmat")
 
 
 # class EmailMessages(models.Model):
