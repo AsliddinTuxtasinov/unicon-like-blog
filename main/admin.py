@@ -6,8 +6,8 @@ from django.contrib.auth.models import Group
 from modeltranslation.admin import TranslationAdmin
 
 from .models import (
-    EmailMessages, InformationService, ContentAdditionalFiles, Members, Modul,
-    Resource, ResourceContent, Announcement, Services, ContactUs, Partners,
+    InformationService, ContentAdditionalFiles, Members, Modul,
+    Resource, ResourceContent, Announcement, ContactUs, Partners,
     Statistics
 )
 
@@ -39,16 +39,16 @@ class AnnouncementAdmin(TranslationAdmin):
     list_display = ["title", "announcement_status", "status_type"]
 
 
-@admin.register(Services)
-class ServicesAdmin(TranslationAdmin):
-    list_display = ["name"]
+# @admin.register(Services)
+# class ServicesAdmin(TranslationAdmin):
+#     list_display = ["name"]
 
 
-@admin.register(EmailMessages)
-class EmailMessagesAdmin(admin.ModelAdmin):
-    list_display = ["name", "services"]
-    list_filter = ["services"]
-    readonly_fields = ["created_at"]
+# @admin.register(EmailMessages)
+# class EmailMessagesAdmin(admin.ModelAdmin):
+#     list_display = ["name", "services"]
+#     list_filter = ["services"]
+#     readonly_fields = ["created_at"]
 
 
 # InformationService (Axborot xizmatlari)

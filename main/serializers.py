@@ -1,6 +1,5 @@
 from .models import (
     InformationService, ContentAdditionalFiles,
-    Services, EmailMessages,
     Members, Modul, Resource, ResourceContent, Announcement, ContactUs, Partners, Statistics,
 )
 from rest_framework import serializers
@@ -49,11 +48,11 @@ class AnnouncementSerializers(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ServicesSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Services
-        # fields = ["id", "name", "title", "content", "created_at"]
-        exclude = ["email"]
+# class ServicesSerializers(serializers.ModelSerializer):
+#     class Meta:
+#         model = Services
+#         # fields = ["id", "name", "title", "content", "created_at"]
+#         exclude = ["email"]
 
 
 # InformationService
@@ -77,12 +76,12 @@ class InformationServiceSerializers(serializers.ModelSerializer):
         return InformationServiceFilesSerializers(obj.content_files.all(), many=True).data
 
 
-class EmailMessagesSerializers(serializers.ModelSerializer):
-    file = serializers.FileField(required=False)
+# class EmailMessagesSerializers(serializers.ModelSerializer):
+#     file = serializers.FileField(required=False)
 
-    class Meta:
-        model = EmailMessages
-        fields = "__all__"
+#     class Meta:
+#         model = EmailMessages
+#         fields = "__all__"
 
 
 class ContactUsSerializers(serializers.ModelSerializer):

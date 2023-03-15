@@ -6,12 +6,12 @@ from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from .models import (
-    EmailMessages, Members, Resource, Announcement, Services, InformationService,
+    Members, Resource, Announcement, InformationService,
     Partners, ContactUs, Statistics, Modul
 )
 from .serializers import (
-    EmailMessagesSerializers, MembersSerializers, InformationServiceSerializers,
-    ResourceSerializers, AnnouncementSerializers, ServicesSerializers,
+    MembersSerializers, InformationServiceSerializers,
+    ResourceSerializers, AnnouncementSerializers,
     PartnersSerializers, ContactUsSerializers, ResourceDetailSerializers, StatisticsSerializers, ModulSerializers,
 )
 from .utils import error_response_404
@@ -157,43 +157,43 @@ class AnnouncementView(APIView):
         return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-@method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["Services"],
-    operation_summary="Services(Xizmatlar) larni ro'yxatini olish",
-    operation_description="",
-    operation_id="services-list",
-    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
-))
-class ServicesListViews(ListAPIView):
-    serializer_class = ServicesSerializers
-    queryset = Services.objects.all()
-    permission_classes = [AllowAny]
+# @method_decorator(name='get', decorator=swagger_auto_schema(
+#     tags=["Services"],
+#     operation_summary="Services(Xizmatlar) larni ro'yxatini olish",
+#     operation_description="",
+#     operation_id="services-list",
+#     responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+# ))
+# class ServicesListViews(ListAPIView):
+#     serializer_class = ServicesSerializers
+#     queryset = Services.objects.all()
+#     permission_classes = [AllowAny]
 
 
-@method_decorator(name='get', decorator=swagger_auto_schema(
-    tags=["Services"],
-    operation_summary="Services(Xizmatlar) detail olish",
-    operation_description="id - bu orqali service ni oladi",
-    operation_id="services-detail",
-    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
-))
-class ServicesDetailViews(RetrieveAPIView):
-    queryset = Services.objects.all()
-    serializer_class = ServicesSerializers
-    permission_classes = [AllowAny]
+# @method_decorator(name='get', decorator=swagger_auto_schema(
+#     tags=["Services"],
+#     operation_summary="Services(Xizmatlar) detail olish",
+#     operation_description="id - bu orqali service ni oladi",
+#     operation_id="services-detail",
+#     responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+# ))
+# class ServicesDetailViews(RetrieveAPIView):
+#     queryset = Services.objects.all()
+#     serializer_class = ServicesSerializers
+#     permission_classes = [AllowAny]
 
 
-@method_decorator(name='post', decorator=swagger_auto_schema(
-    tags=["Services"],
-    operation_summary="Services(Xizmatlar) ga message qoldirish",
-    operation_description="Bu message service ga biriktirilgan emailga jo'natiladi",
-    operation_id="create-message",
-    responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
-))
-class CreateEmailMessages(CreateAPIView):
-    queryset = EmailMessages.objects.all()
-    serializer_class = EmailMessagesSerializers
-    permission_classes = [AllowAny]
+# @method_decorator(name='post', decorator=swagger_auto_schema(
+#     tags=["Services"],
+#     operation_summary="Services(Xizmatlar) ga message qoldirish",
+#     operation_description="Bu message service ga biriktirilgan emailga jo'natiladi",
+#     operation_id="create-message",
+#     responses={'200': "Response json ko'rinishida bo'ladi va services ro'yxati keladi"}
+# ))
+# class CreateEmailMessages(CreateAPIView):
+#     queryset = EmailMessages.objects.all()
+#     serializer_class = EmailMessagesSerializers
+#     permission_classes = [AllowAny]
 
 
 # InformationService (Axborot xizmatlari)

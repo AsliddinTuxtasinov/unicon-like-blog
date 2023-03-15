@@ -113,40 +113,40 @@ class Announcement(models.Model):
 
 
 # Services (Xizmatlar)
-class Services(models.Model):
-    name = models.CharField(max_length=255)
-    icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
-    email = models.EmailField(blank=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    content = RichTextField(blank=True)
+# class Services(models.Model):
+#     name = models.CharField(max_length=255)
+#     icon = models.ImageField(upload_to="content/services-icons", help_text=_("icon"))
+#     email = models.EmailField(blank=True)
+#     title = models.CharField(max_length=255, blank=True, null=True)
+#     content = RichTextField(blank=True)
 
-    created_at = models.DateField(auto_now_add=True)
+#     created_at = models.DateField(auto_now_add=True)
 
-    def __str__(self):
-        return self.name
+#     def __str__(self):
+#         return self.name
 
-    class Meta:
-        verbose_name_plural = _("Xizmatlar")
-        verbose_name = _("Xizmat")
+#     class Meta:
+#         verbose_name_plural = _("Xizmatlar")
+#         verbose_name = _("Xizmat")
 
 
-class EmailMessages(models.Model):
-    services = models.ForeignKey(to=Services, related_name="services", on_delete=models.CASCADE)
+# class EmailMessages(models.Model):
+#     services = models.ForeignKey(to=Services, related_name="services", on_delete=models.CASCADE)
 
-    name = models.CharField(verbose_name="FISH or Name organization", max_length=255)
-    email = models.EmailField()
-    phone_number = models.CharField(max_length=50)
-    message = models.TextField()
-    file = models.FileField(null=True, blank=True, upload_to="file-message/")
+#     name = models.CharField(verbose_name="FISH or Name organization", max_length=255)
+#     email = models.EmailField()
+#     phone_number = models.CharField(max_length=50)
+#     message = models.TextField()
+#     file = models.FileField(null=True, blank=True, upload_to="file-message/")
 
-    created_at = models.DateTimeField(auto_now_add=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return f"{self.name}-{self.email}-{self.created_at}"
+#     def __str__(self):
+#         return f"{self.name}-{self.email}-{self.created_at}"
 
-    class Meta:
-        verbose_name_plural = _("Email xabarlar")
-        verbose_name = _("Email xabari")
+#     class Meta:
+#         verbose_name_plural = _("Email xabarlar")
+#         verbose_name = _("Email xabari")
 
 
 # InformationService (Axborot xizmatlari)
